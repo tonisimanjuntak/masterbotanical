@@ -20,10 +20,8 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
-application/config/config.php
-application/config/database.php
-admin/application/config/config.php
-admin/application/config/database.php
+config.php
+database.php
 ### CodeIgniter Patch ###
 
 ### SublimeText ###
