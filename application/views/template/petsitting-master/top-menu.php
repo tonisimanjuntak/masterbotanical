@@ -8,8 +8,7 @@
 	        <ul class="navbar-nav ml-auto">
 	        	<li class="nav-item <?php echo ($menu == 'homepetsitting') ? 'active' : '' ?>"><a href="<?php echo site_url() ?>" class="nav-link">Home</a></li>
 	        	<!-- <li class="nav-item"><a href="<?php echo site_url('page/aboutus') ?>" class="nav-link">About</a></li> -->
-	        	<li class="nav-item <?php echo ($menu == 'shop') ? 'active' : '' ?>"><a href="<?php echo site_url('shop') ?>" class="nav-link">Shop</a></li>
-	        	<li class="nav-item <?php echo ($menu == 'history') ? 'active' : '' ?>"><a href="<?php echo site_url('history') ?>" class="nav-link">History</a></li>
+	        	<li class="nav-item <?php echo ($menu == 'shop') ? 'active' : '' ?>"><a href="<?php echo site_url('shop') ?>" class="nav-link">Shop</a></li>	        	
 	        	<li class="nav-item <?php echo ($menu == 'chart') ? 'active' : '' ?>"><a href="<?php echo site_url('chart') ?>" class="nav-link">Cart</a></li>
 	          	<li class="nav-item <?php echo ($menu == 'news') ? 'active' : '' ?>"><a href="<?php echo site_url('news') ?>" class="nav-link">News</a></li>
 	          	<?php  
