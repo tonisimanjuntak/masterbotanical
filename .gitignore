@@ -22,6 +22,8 @@ application/logs/*
 /vendor/
 application/config/config.php
 application/config/database.php
+admin/application/config/config.php
+admin/application/config/database.php
 ### CodeIgniter Patch ###
 
 ### SublimeText ###
