@@ -31,8 +31,6 @@
 <!-- OPTIONAL SCRIPTS -->
 <script src="<?php echo (base_url()) ?>assets/adminlte/dist/js/demo.js"></script>
 
-<!-- ChartJS -->
-<script src="<?php echo (base_url()) ?>assets/adminlte/plugins/chart.js/Chart.min.js"></script>
 
 
 <!-- datatables -->

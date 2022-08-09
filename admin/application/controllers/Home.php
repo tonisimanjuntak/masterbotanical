@@ -4,6 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Home extends CI_Controller
 {
 
+    
+
     public function __construct()
     {
         parent::__construct();
@@ -29,6 +31,22 @@ class Home extends CI_Controller
         $this->load->view("home", $data);
     }
 
+
+    public function getinfobox()
+    {
+
+        $sebulan = date('Y-m-d', strtotime('-1 month', date('Y-m-d')) );
+
+        $jlhorder = $this->db->query("SELECT COUNT(*) AS jlhorder FROM penjualan WHERE isfrontend = 'Yes' AND statuskonfirmasi='Menunggu'")->row()->jlhorder;
+
+        $jlhnewkonsumen = $this->db->query("SELECT COUNT(*) AS jlhnewkonsumen FROM konsumen WHERE tglinsert BETWEEN '".$sebulan."' AND '".date('Y-m-d')."'");
+
+        $jlhfreeconsultation = 0;
+
+        $jlhoutofstock = 0;
+
+
+    }
 }
 
 /* End of file Home.php */
