@@ -27,19 +27,19 @@
               <div class="col-lg-3 col-6">
                 <div class="small-box bg-info">
                   <div class="inner">
-                    <h3><i class="fa fa-shopping-cart"></i> 4</h3>
+                    <h3><i class="fa fa-shopping-cart"></i> <span id="jlhorder">0</span></h3>
                     <p>New Orders On Progress</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-bag"></i>
                   </div>
-                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="<?php echo site_url('penjualankonfirmasi') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
               <div class="col-lg-3 col-6">
                 <div class="small-box bg-warning">
                   <div class="inner">
-                    <h3><i class="fa fa-registered"></i> 44</h3>
+                    <h3><i class="fa fa-registered"></i> <span id="jlhnewkonsumen">0</span></h3>
 
                     <p>New Costumer</p>
                   </div>
@@ -52,25 +52,25 @@
               <div class="col-lg-3 col-6">
                 <div class="small-box bg-success">
                   <div class="inner">
-                    <h3><i class="fa fa-envelope"></i> 65 </h3>
-                    <p>Free Consultation</p>
+                    <h3><i class="fa fa-envelope"></i> <span id="jlhfreeconsultation">0</span></h3>
+                    <p>New Free Consultation</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                   </div>
-                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="<?php echo site_url('consultation') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
               <div class="col-lg-3 col-6">
                 <div class="small-box bg-danger">
                   <div class="inner">
-                    <h3><i class="fa fa-boxes"></i> 1</h3>
+                    <h3><i class="fa fa-boxes"></i> <span id="jlhoutofstock">0</span></h3>
                     <p>Out Of Stock</p>
                   </div>
                   <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                   </div>
-                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="<?php echo site_url('batchnumber') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
               </div>
 
@@ -183,8 +183,13 @@ $(document).ready(function() {
       type: 'GET',
       dataType: 'json',
     })
-    .done(function() {
-      console.log("success");
+    .done(function(resultinfo) {
+      // console.log(resultinfo);
+      $('#jlhorder').html(resultinfo.jlhorder);
+      $('#jlhnewkonsumen').html(resultinfo.jlhnewkonsumen);
+      $('#jlhfreeconsultation').html(resultinfo.jlhfreeconsultation);
+      $('#jlhoutofstock').html(resultinfo.jlhoutofstock);
+
     })
     .fail(function() {
       console.log("error");

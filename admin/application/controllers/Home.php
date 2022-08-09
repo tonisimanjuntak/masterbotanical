@@ -35,17 +35,24 @@ class Home extends CI_Controller
     public function getinfobox()
     {
 
-        $sebulan = date('Y-m-d', strtotime('-1 month', date('Y-m-d')) );
+        $sebulan = date('Y-m-d', strtotime('-1 month', strtotime(date('Y-m-d'))) );
 
         $jlhorder = $this->db->query("SELECT COUNT(*) AS jlhorder FROM penjualan WHERE isfrontend = 'Yes' AND statuskonfirmasi='Menunggu'")->row()->jlhorder;
 
-        $jlhnewkonsumen = $this->db->query("SELECT COUNT(*) AS jlhnewkonsumen FROM konsumen WHERE tglinsert BETWEEN '".$sebulan."' AND '".date('Y-m-d')."'");
+        $jlhnewkonsumen = $this->db->query("SELECT COUNT(*) AS jlhnewkonsumen FROM konsumen WHERE tglinsert BETWEEN '".$sebulan."' AND '".date('Y-m-d')."'")->row()->jlhnewkonsumen;
 
-        $jlhfreeconsultation = 0;
+        $jlhfreeconsultation = $this->db->query("SELECT COUNT(*) AS jlhfreeconsultation FROM consultation WHERE tglreply IS NULL")->row()->jlhfreeconsultation;
 
-        $jlhoutofstock = 0;
+        $jlhoutofstock = $this->db->query("SELECT COUNT(*) AS jlhoutofstock FROM v_produkstok WHERE statusaktif='Aktif' AND stok=0")->row()->jlhoutofstock;;
 
+        $data = array(
+                    'jlhorder' => $jlhorder, 
+                    'jlhnewkonsumen' => $jlhnewkonsumen, 
+                    'jlhfreeconsultation' => $jlhfreeconsultation, 
+                    'jlhoutofstock' => $jlhoutofstock, 
+                );
 
+        echo json_encode($data);
     }
 }
 
