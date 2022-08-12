@@ -13,7 +13,7 @@ class HomePetsitting extends CI_Controller
 
     public function index()
     {
-        $rowtabinfo     = $this->db->query("select * from utiltabinfo")->row();
+        $rowtabinfo     = $this->db->query("select * from v_utiltabinfo")->row();
         $rowwhychooseus = $this->db->query("select * from utilwhychooseus")->row();
         $rsfaq          = $this->db->query("select * from utilfaq");
         $rshappyclient  = $this->db->query("select * from utilhappyclient");
@@ -31,7 +31,7 @@ class HomePetsitting extends CI_Controller
 
         $jlhcostumer += $rowcounter->costumer;
         $jlhtotalsale += $rowcounter->totalsale;
-
+        
         $data['jlhcostumer']     = $jlhcostumer;
         $data['jlhtotalsale']     = $jlhtotalsale;
         $data['jlhproduk']     = $jlhproduk;

@@ -19,7 +19,7 @@ class MY_controller extends CI_Controller {
     {
             $from_email = 'admin@masterbotanical.com';
             $from_name = 'Master Botanical';
-            $passwordemail 'Pontianak123';
+            $passwordemail = 'Pontianak123';
             $smtp_host = "mail.masterbotanical.com";
             $smtp_port = "465";
             $smtp_timeout = "5";

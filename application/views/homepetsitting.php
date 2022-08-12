@@ -46,7 +46,17 @@
               <div class="media-body">
                 <h3 class="heading"><?php echo $rowtabinfo->tab2judul ?></h3>
                 <p><?php echo $rowtabinfo->tab2deskripsi ?></p>
-                <a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i></a>
+                <?php  
+                  if (!empty($rowtabinfo->judulpageseo1)) {
+                    echo '
+                      <a href="'.site_url('pages/read/'.$rowtabinfo->judulpageseo1).'" class="btn-custom d-flex align-items-center justify-content-center"><span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i></a>
+                    ';
+                  }else{
+                    echo '
+                      <a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i></a>
+                    ';
+                  }
+                ?>
               </div>
             </div>
           </div>
