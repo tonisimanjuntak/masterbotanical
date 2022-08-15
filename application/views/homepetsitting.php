@@ -411,7 +411,7 @@ if ($rsspesialoffer->num_rows() > 0) {
                 echo '
                   <div class="col-md-4 ftco-animate">
                     <div class="work mb-4 img d-flex align-items-end" style="background-image: url(uploads/gallery/'.$rowgallery->filegallery.');">
-                      <a href="images/gallery-1.jpg" class="icon image-popup d-flex justify-content-center align-items-center">
+                      <a href="'.base_url('uploads/gallery/'.$rowgallery->filegallery).'" class="icon image-popup d-flex justify-content-center align-items-center">
                         <span class="fa fa-expand"></span>
                       </a>
                       <div class="desc w-100 px-4">
