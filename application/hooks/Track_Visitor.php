@@ -32,7 +32,7 @@ class Track_Visitor {
      * ignore controllers e.g. 'admin'
      */
     private $CONTROLLER_IGNORE_LIST = array(
-        'admin'
+        'admin', 'login'
     );
 
     /*
@@ -83,9 +83,12 @@ class Track_Visitor {
         if ($this->track_session() === TRUE) {
             //update the visitor log in the database, based on the current visitor
             //id held in $_SESSION["visitor_id"]
+            // $this->ci->session->set_userdata('track_session', FALSE);
+            // echo 'test 1';
+            // exit();
             $temp_visitor_id = $this->ci->session->userdata('visitor_id');
             $visitor_id = isset($temp_visitor_id) ? $temp_visitor_id : 0;
-            $no_of_visits = $this->ci->session->userdata('visits_count');
+            $no_of_visits = $this->ci->session->userdata('no_of_visits');
             $current_page = current_url();
             $temp_current_page = $this->ci->session->userdata('current_page');
             if (isset($temp_current_page) && $temp_current_page != $current_page) {
@@ -116,7 +119,8 @@ class Track_Visitor {
                 'referer_page' => $this->ci->agent->referrer(),
                 'user_agent' => $this->ci->agent->agent_string(),
                 'page_name' => $page_name,
-                'query_string' => $query_string
+                'query_string' => $query_string,
+                'no_of_visits' => 1
             );
             $result = $this->ci->db->insert($this->site_log, $data);
             if ($result === FALSE) {
@@ -124,6 +128,8 @@ class Track_Visitor {
                  * find the next available visitor_id for the database
                  * to assign to this person
                  */
+                var_dump($data);
+                exit();
                 $this->ci->session->set_userdata('track_session', FALSE);
             } else {
                 /**
@@ -132,7 +138,7 @@ class Track_Visitor {
                  */
                 $this->ci->session->set_userdata('track_session', TRUE);
                 $entry_id = $this->ci->db->insert_id();
-                $query = $this->ci->db->query('select max(visits_count) as next from ' .
+                $query = $this->ci->db->query('select max(no_of_visits) as next from ' .
                         $this->site_log . ' limit 1');
                 $count = 0;
                 if ($query->num_rows() == 1) {
@@ -147,12 +153,12 @@ class Track_Visitor {
                 //Note, that we do it in this way to prevent a "race condition"
                 $this->ci->db->where('site_log_id', $entry_id);
                 $data = array(
-                    'visits_count' => $count
+                    'no_of_visits' => $count
                 );
                 $this->ci->db->update($this->site_log, $data);
                 //place the current visitor_id into the session so we can use it on
                 //subsequent visits to track this person
-                $this->ci->session->set_userdata('visits_count', $count);
+                $this->ci->session->set_userdata('no_of_visits', $count);
                 //save the current page to session so we don't track if someone just refreshes the page
                 $current_page = current_url();
                 $this->ci->session->set_userdata('current_page', $current_page);
