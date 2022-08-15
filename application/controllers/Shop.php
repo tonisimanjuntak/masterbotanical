@@ -8,19 +8,64 @@ class Shop extends CI_Controller
     {
         parent::__construct();
         $this->cart->product_name_rules = "\+\.\:\-_ a-z0-9\pL";
+        $this->load->library('pagination');
+        $this->load->model('Shop_model');
         //Do your magic here
     }
 
     public function index()
     {
 
-        $rsproduk = $this->db->query("select * from v_produk");
+        // $rsproduk = $this->db->query("select * from v_produk");
 
         $rowcompany             = $this->db->query("select * from company limit 1")->row();
         $rowsosialmedia         = $this->db->query("select * from utilsosialmedia")->row();
+        $total_rows = $this->Shop_model->count_all();
+
+        $halaman = $this->uri->segment(3);
+        if ($halaman==NULL || $halaman=='' || !isset($halaman) || empty($halaman)) {
+            $halaman = 0;
+        }
+
+        //konfigurasi pagination
+        $config['base_url'] = site_url('shop/index/'); //site url
+        $config['total_rows'] = $total_rows; //total row
+        $config['per_page'] = 6;  //show record per halaman
+        $config["uri_segment"] = 4;  // uri parameter
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+ 
+        // Membuat Style pagination untuk BootStrap v4
+        $config['display_prev_link'] = FALSE;
+        $config['display_prev_link'] = FALSE;
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tagl_close']  = '</span>Next</li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tagl_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tagl_close']  = '</span></li>';
+ 
+        $this->pagination->initialize($config);
+        $data['page'] = ($halaman) ? $halaman : 0;
+        
+        $data['data'] = $this->Shop_model->get_all($config["per_page"], $data['page']);           
+ 
+        $data['pagination'] = $this->pagination->create_links();
         $data['rowcompany']     = $rowcompany;
         $data['rowsosialmedia'] = $rowsosialmedia;
-        $data['rsproduk']       = $rsproduk;
+        // $data['rsproduk']       = $rsproduk;
         $data['idjenis']        = '';
         $data['hidebestseller']        = false;
         $data['menu']           = 'shop';

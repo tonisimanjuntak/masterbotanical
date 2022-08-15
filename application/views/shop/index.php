@@ -196,7 +196,7 @@ if ($rsspesialoffer->num_rows() > 0) {
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span><?php echo $rsproduk->num_rows() ?></span> Products found</h6>
+                                    <h6><span><?php echo $data->num_rows() ?></span> Products found</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -215,8 +215,8 @@ if ($rsspesialoffer->num_rows() > 0) {
                     <div class="row">
 
                       <?php
-if ($rsproduk->num_rows() > 0) {
-    foreach ($rsproduk->result() as $row) {
+if ($data->num_rows() > 0) {
+    foreach ($data->result() as $row) {
         if (!empty($row->gambarproduk)) {
             $gambarproduk = base_url('uploads/produk/' . $row->gambarproduk);
         } else {
@@ -246,12 +246,18 @@ if ($rsproduk->num_rows() > 0) {
 
 
                     </div>
-                    <div class="product__pagination">
+                    <div class="row">
+                      <div class="col-12">
+                        <?php echo $pagination; ?>                        
+                      </div>
+                    </div>
+                    <!-- <div class="product__pagination">
+
                         <a href="#">1</a>
                         <a href="#">2</a>
                         <a href="#">3</a>
                         <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div>
+                    </div> -->
                 </div>
 
 
