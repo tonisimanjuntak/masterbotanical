@@ -196,7 +196,7 @@ if ($rsspesialoffer->num_rows() > 0) {
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span><?php echo $data->num_rows() ?></span> Products found</h6>
+                                    <h6><span><?php echo $data->num_rows() ?></span> Products found for search <?php echo $search ?></h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -246,11 +246,7 @@ if ($data->num_rows() > 0) {
 
 
                     </div>
-                    <div class="row">
-                      <div class="col-12">
-                        <?php echo $pagination; ?>                        
-                      </div>
-                    </div>
+                    
                     <!-- <div class="product__pagination">
 
                         <a href="#">1</a>
