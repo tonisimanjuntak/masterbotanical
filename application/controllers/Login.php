@@ -12,7 +12,8 @@ class Login extends CI_Controller
 
     public function keluar()
     {
-        $this->session->sess_destroy();
+        //$this->session->sess_destroy();
+        $this->session->unset_userdata('idkonsumen');
         redirect( site_url() );
     }
 
