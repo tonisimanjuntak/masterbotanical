@@ -26,13 +26,25 @@
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="<?php echo (site_url()) ?>" class="nav-link">
+            <a href="<?php echo (site_url('dashboardmanagement')) ?>" class="nav-link <?php echo ($menu == 'dashboardmanagement') ? 'active' : '' ?>">
               <i class="nav-icon fas fa-home"></i>
               <p>
-                Home
+                Dashboard Management
               </p>
             </a>
           </li>
+
+          
+          <li class="nav-item">
+            <a href="<?php echo (site_url('dashboardvisitor')) ?>" class="nav-link <?php echo ($menu == 'dashboardvisitor') ? 'active' : '' ?>">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard Visitor
+              </p>
+            </a>
+          </li>
+
+
 
 <?php
 $menudropdown = array("slider", "pages", "tabinfo", "whychooseus", "faq", "happyclient", "bestseller", "sosialmedia", "news", "video", "gallery", "consultation");

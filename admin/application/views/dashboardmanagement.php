@@ -7,11 +7,11 @@
 
   <div class="row" id="toni-breadcrumb">
     <div class="col-6">
-        <h4 class="text-dark mt-2">Home</h4>
+        <h4 class="text-dark mt-2">Dashboard Management</h4>
     </div>  
     <div class="col-6">
       <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item active">Home</li>
+        <li class="breadcrumb-item active">Dashboard Management</li>
       </ol>
       
     </div>
@@ -179,7 +179,7 @@
 $(document).ready(function() {
   
   $.ajax({
-      url: '<?php echo site_url("home/getinfobox") ?>',
+      url: '<?php echo site_url("dashboardmanagement/getinfobox") ?>',
       type: 'GET',
       dataType: 'json',
     })

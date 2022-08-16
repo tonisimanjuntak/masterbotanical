@@ -46,6 +46,9 @@ class Track_Visitor {
      * visitor tracking table
      */
     private $site_log = "site_log";
+    private $site_online = "site_online";
+
+    private $idusers = "idkonsumen";
 
     function __construct() {
         $this->ci = & get_instance();
@@ -73,7 +76,10 @@ class Track_Visitor {
             }
             if ($proceed === TRUE) {
                 $this->log_visitor();
+                $this->log_online();
             }
+
+
         }
     }
 
@@ -163,6 +169,33 @@ class Track_Visitor {
                 $current_page = current_url();
                 $this->ci->session->set_userdata('current_page', $current_page);
             }
+        }
+    }
+
+    private function log_online()
+    {
+        $idusers = $this->ci->session->userdata($this->idusers);
+        $site_online_id = $this->ci->session->userdata('site_online_id');
+        $lastseen = date('Y-m-d H:i:s');
+
+        if (!isset($site_online_id)) {
+            $is_users = (isset($idusers)) ? 1 : 0 ;            
+            $dataonline = array(
+                            'idusers' => $idusers, 
+                            'is_users' => $is_users,
+                            'lastseen' => $lastseen 
+                        );                            
+            $result = $this->ci->db->insert($this->site_online, $dataonline);
+            $site_online_id = $this->ci->db->insert_id();
+            $this->ci->session->set_userdata('site_online_id', $site_online_id);
+        }else{
+            $is_users = (isset($idusers)) ? 1 : 0 ;            
+            $dataonline = array(
+                                'is_users' => $is_users, 
+                                'lastseen' => $lastseen
+                                );
+            $this->ci->db->where('site_online_id', $site_online_id);
+            $this->ci->db->update($this->site_online, $dataonline);
         }
     }
 
