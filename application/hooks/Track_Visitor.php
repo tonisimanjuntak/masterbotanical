@@ -49,6 +49,7 @@ class Track_Visitor {
     private $site_online = "site_online";
 
     private $idusers = "idkonsumen";
+    private $is_unique_day = 30; //30 days
 
     function __construct() {
         $this->ci = & get_instance();
@@ -119,6 +120,11 @@ class Track_Visitor {
             $page_length = strlen(trim($this->ci->router->fetch_class() . '/' . $this->ci->router->fetch_method()));
             $query_params = trim(substr($this->ci->uri->uri_string(), $page_length + 1));
             $query_string = strlen($query_params) ? $query_params : '';
+
+            $tempunique = $this->ci->db->query("select count(*) as tempunique from ".$this->site_log." where ip_address='".$this->ci->input->server('REMOTE_ADDR')."' and user_agent='".$this->ci->agent->agent_string()."' and DATE(access_date) >= DATE_SUB(NOW(), INTERVAL ".$this->is_unique_day." DAY)")->row()->tempunique;
+
+            $is_unique = ($tempunique==0) ? 1 : 0;
+
             $data = array(
                 'ip_address' => $this->ci->input->server('REMOTE_ADDR'),
                 'requested_url' => $this->ci->input->server('REQUEST_URI'),
@@ -126,6 +132,7 @@ class Track_Visitor {
                 'user_agent' => $this->ci->agent->agent_string(),
                 'page_name' => $page_name,
                 'query_string' => $query_string,
+                'is_unique' => $is_unique,
                 'no_of_visits' => 1
             );
             $result = $this->ci->db->insert($this->site_log, $data);
