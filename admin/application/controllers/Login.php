@@ -19,7 +19,7 @@ class Login extends CI_Controller {
     { 
         $idpengguna = $this->session->userdata('idpengguna');
         if (!empty($idpengguna)) {
-            redirect('Home');
+            redirect(site_url());
         }else{
             $this->load->view('login');     
         }
@@ -60,7 +60,7 @@ class Login extends CI_Controller {
                 );
                                 
                 $this->session->set_userdata( $data );  
-                redirect('Home');
+                redirect(site_url());
             }else{
                 $pesan = '<div class="alert alert-danger">Username atau Password Anda Salah . . . Silahkan Coba Lagi . . . </div>';
                 $this->session->set_flashdata('pesan', $pesan);
