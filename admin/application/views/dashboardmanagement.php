@@ -79,15 +79,15 @@
                 <div class="card">
                   <div class="card-header border-0">
                     <div class="d-flex justify-content-between">
-                      <h3 class="card-title">Penjualan Bulan Ini</h3>
+                      <h3 class="card-title">Grafik Penjualan</h3>
                       <a href="javascript:void(0);">View Report</a>
                     </div>
                   </div>
                   <div class="card-body">
                     <div class="d-flex">
                       <p class="d-flex flex-column">
-                        <span class="text-bold text-lg">$18,230.00</span>
-                        <span>Sales Over Time</span>
+                        <span class="text-bold text-lg"><span id="totalsemua">0</span></span>
+                        <span>Penjualan Bulan Ini</span>
                       </p>
                       <p class="ml-auto d-flex flex-column text-right">
                         <span class="text-success">
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="position-relative mb-4">
-                      <canvas id="sales-chart" height="200"></canvas>
+                      <canvas id="penjualan-chart" height="200"></canvas>
                     </div>
 
                     <div class="d-flex flex-row justify-content-end">
@@ -194,6 +194,10 @@ $(document).ready(function() {
     .fail(function() {
       console.log("error");
     });
+
+
+  
+  
       
 });
 
@@ -208,72 +212,102 @@ $(function () {
   var mode = 'index'
   var intersect = true
 
-  var $salesChart = $('#sales-chart')
-  // eslint-disable-next-line no-unused-vars
-  var salesChart = new Chart($salesChart, {
-    type: 'bar',
-    data: {
-      labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-      datasets: [
-        {
-          backgroundColor: '#007bff',
-          borderColor: '#007bff',
-          data: [1000, 2000, 3000, 2500, 2700, 2500, 3000]
-        },
-        {
-          backgroundColor: '#ced4da',
-          borderColor: '#ced4da',
-          data: [700, 1700, 2700, 2000, 1800, 1500, 2000]
-        }
-      ]
-    },
-    options: {
-      maintainAspectRatio: false,
-      tooltips: {
-        mode: mode,
-        intersect: intersect
-      },
-      hover: {
-        mode: mode,
-        intersect: intersect
-      },
-      legend: {
-        display: false
-      },
-      scales: {
-        yAxes: [{
-          // display: false,
-          gridLines: {
-            display: true,
-            lineWidth: '4px',
-            color: 'rgba(0, 0, 0, .2)',
-            zeroLineColor: 'transparent'
-          },
-          ticks: $.extend({
-            beginAtZero: true,
 
-            // Include a dollar sign in the ticks
-            callback: function (value) {
-              if (value >= 1000) {
-                value /= 1000
-                value += 'k'
-              }
-
-              return '$' + value
-            }
-          }, ticksStyle)
-        }],
-        xAxes: [{
-          display: true,
-          gridLines: {
-            display: false
-          },
-          ticks: ticksStyle
-        }]
-      }
-    }
+  // =============================== Chart Penjualan Bulan INI ======================================
+  $.ajax({
+    url: '<?php echo site_url("dashboardmanagement/getchartbulanini") ?>',
+    type: 'GET',
+    dataType: 'json',
   })
+  .done(function(resultbulanini) {
+    // console.log(resultbulanini);
 
+
+    $('#totalsemua').html('$'+resultbulanini.totalsemua);
+    var $penjualanChart = $('#penjualan-chart')
+    var penjualanChart = new Chart($penjualanChart, {
+      type: 'bar',
+      data: {
+        labels: resultbulanini.tanggalpenjualan,
+        datasets: [
+          {
+            backgroundColor: '#007bff',
+            borderColor: '#007bff',
+            data: resultbulanini.totalpenjualan
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: mode,
+          intersect: intersect
+        },
+        hover: {
+          mode: mode,
+          intersect: intersect
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            // display: false,
+            gridLines: {
+              display: true,
+              lineWidth: '4px',
+              color: 'rgba(0, 0, 0, .2)',
+              zeroLineColor: 'transparent'
+            },
+            ticks: $.extend({
+              beginAtZero: true,
+
+              // Include a dollar sign in the ticks
+              callback: function (value) {
+                if (value >= 1000) {
+                  value /= 1000
+                  value += 'k'
+                }
+
+                return '$' + value
+              }
+            }, ticksStyle)
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            ticks: ticksStyle
+          }]
+        }
+      }
+    })
+  })
+  .fail(function() {
+    console.log("error get chart bulan ini");
+  });
+
+
+
+  // =============================== Chart Penjualan Tahun INI ======================================
+
+  $.ajax({
+    url: '<?php echo site_url('dashboardmanagement/getcharttahunini') ?>',
+    type: 'GET',
+    dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+    data: {param1: 'value1'},
+  })
+  .done(function() {
+    console.log("success");
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+  
   var $visitorsChart = $('#visitors-chart')
   // eslint-disable-next-line no-unused-vars
   var visitorsChart = new Chart($visitorsChart, {

@@ -7,7 +7,7 @@ class Dashboardmanagement extends CI_Controller {
     {
         parent::__construct();
         $this->is_login();
-
+        $this->load->model('Dashboardmanagement_model');
         //Do your magic here
     }
 
@@ -50,6 +50,24 @@ class Dashboardmanagement extends CI_Controller {
                 );
 
         echo json_encode($data);
+    }
+
+    public function getchartbulanini()
+    {
+        $rspenjualanbulanini = $this->Dashboardmanagement_model->getchartbulanini();
+        $tanggalpenjualan = array();
+        $totalpenjualan = array();
+        $totalsemua = 0;
+
+        if ($rspenjualanbulanini->num_rows()>0) {
+            foreach ($rspenjualanbulanini->result() as $row) {
+                $tanggalpenjualan[] = $row->tanggal;
+                $totalpenjualan[] = $row->totalpenjualan;
+                $totalsemua += $row->totalpenjualan;
+            }
+        }
+
+        echo json_encode( array('tanggalpenjualan' => $tanggalpenjualan, 'totalpenjualan' => $totalpenjualan, 'totalsemua' => $totalsemua ));
     }
 
 }
