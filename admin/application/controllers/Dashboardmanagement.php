@@ -58,16 +58,47 @@ class Dashboardmanagement extends CI_Controller {
         $tanggalpenjualan = array();
         $totalpenjualan = array();
         $totalsemua = 0;
+        $averagebulanini = 0;
 
+        $i=1;
         if ($rspenjualanbulanini->num_rows()>0) {
             foreach ($rspenjualanbulanini->result() as $row) {
+                $totalsemua += $row->totalpenjualan;
                 $tanggalpenjualan[] = $row->tanggal;
                 $totalpenjualan[] = $row->totalpenjualan;
-                $totalsemua += $row->totalpenjualan;
+                $averagebulanini = $totalsemua/$i;
+                $i++;
             }
         }
 
-        echo json_encode( array('tanggalpenjualan' => $tanggalpenjualan, 'totalpenjualan' => $totalpenjualan, 'totalsemua' => $totalsemua ));
+        echo json_encode( array('tanggalpenjualan' => $tanggalpenjualan, 'totalpenjualan' => $totalpenjualan, 'totalsemua' => $totalsemua, 'averagebulanini'=>$averagebulanini ));
+    }
+
+
+    public function getcharttahunini()
+    {
+        $rspenjualantahunini = $this->Dashboardmanagement_model->getcharttahunini();
+        $bulanpenjualan = array();
+        $totalpenjualan = array();
+        $totalaverage = array();
+        $totalsemua = 0;
+        $averagetahunini = 0;
+
+        $i=1;
+
+        if ($rspenjualantahunini->num_rows()>0) {
+            foreach ($rspenjualantahunini->result() as $rowpenjualantahunini) {
+
+                $totalsemua += $rowpenjualantahunini->totalpenjualan;        
+                $bulanpenjualan[] = bulan($rowpenjualantahunini->bulan);
+                $totalpenjualan[] = $rowpenjualantahunini->totalpenjualan;
+                $totalaverage[] = $totalsemua/$i;
+                $averagetahunini = $totalsemua/$i; //hanya akan diambil nilai terakhir
+                $i++;
+            }
+        }
+
+        echo json_encode( array('bulanpenjualan' => $bulanpenjualan, 'totalpenjualan'=>$totalpenjualan, 'totalaverage'=>$totalaverage, 'totalsemua'=>$totalsemua, 'averagetahunini'=>$averagetahunini ));
     }
 
 }
