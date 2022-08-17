@@ -398,7 +398,7 @@ if (in_array($menu, $menudropdown)) {
 
 
           <?php
-$menudropdown = array("penjualan", "penjualankonfirmasi", "penjualanpengiriman");
+$menudropdown = array("penjualan", "penjualankonfirmasi", "penjualanpengiriman", "lappenjualan");
 if (in_array($menu, $menudropdown)) {
     $dropdownselected = true;
 } else {
