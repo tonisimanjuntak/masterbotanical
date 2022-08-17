@@ -51,17 +51,17 @@ class Penjualan extends CI_Controller {
             exit();
         };
 
-        if ($rspenjualan->row()->statuskonfirmasi=='Dikonfirmasi') {
-            $pesan = '<div>
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                            <strong>Upss!</strong> Penjualan ini sudah dikonfirmasi, tidak bisa diubah lagi! 
-                        </div>
-                    </div>';
-            $this->session->set_flashdata('pesan', $pesan);
-            redirect('penjualan');
-            exit();
-        }
+        // if ($rspenjualan->row()->statuskonfirmasi=='Dikonfirmasi') {
+        //     $pesan = '<div>
+        //                 <div class="alert alert-danger alert-dismissable">
+        //                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+        //                     <strong>Upss!</strong> Penjualan ini sudah dikonfirmasi, tidak bisa diubah lagi! 
+        //                 </div>
+        //             </div>';
+        //     $this->session->set_flashdata('pesan', $pesan);
+        //     redirect('penjualan');
+        //     exit();
+        // }
 
         $data['idpenjualan'] = $idpenjualan;      
         $data['menu'] = 'penjualan';
@@ -166,6 +166,8 @@ class Penjualan extends CI_Controller {
                 $row[] = $rowdata->idprodukharga;
                 $row[] = $rowdata->idproduk;
                 $row[] = $rowdata->namaproduk2;
+                $row[] = $rowdata->idprodukbatchnumber;
+                $row[] = $rowdata->nomorbatch;
                 $row[] = $rowdata->beratproduk;
                 $row[] = format_decimal($rowdata->hargaproduk,2);
                 $row[] = $rowdata->qty;
@@ -202,17 +204,17 @@ class Penjualan extends CI_Controller {
         };
 
 
-        if ($rspenjualan->row()->statuskonfirmasi=='Dikonfirmasi') {
-            $pesan = '<div>
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                            <strong>Upss!</strong> Penjualan ini sudah dikonfirmasi, tidak bisa hapus lagi! 
-                        </div>
-                    </div>';
-            $this->session->set_flashdata('pesan', $pesan);
-            redirect('penjualan');
-            exit();
-        }
+        // if ($rspenjualan->row()->statuskonfirmasi=='Dikonfirmasi') {
+        //     $pesan = '<div>
+        //                 <div class="alert alert-danger alert-dismissable">
+        //                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+        //                     <strong>Upss!</strong> Penjualan ini sudah dikonfirmasi, tidak bisa hapus lagi! 
+        //                 </div>
+        //             </div>';
+        //     $this->session->set_flashdata('pesan', $pesan);
+        //     redirect('penjualan');
+        //     exit();
+        // }
 
 
         $hapus = $this->Penjualan_model->hapus($idpenjualan);
@@ -253,8 +255,9 @@ class Penjualan extends CI_Controller {
         $desa           = $this->input->post('desa');
         $alamatpengiriman           = $this->input->post('alamatpengiriman');
         $idjasapengiriman           = $this->input->post('idjasapengiriman');
-
+        $statuskonfirmasi = 'Dikonfirmasi';
         $tglinsert           = date('Y-m-d H:i:s');
+        $idpengguna = $this->session->userdata('idpengguna');
 
         //jika session berakhir
         if (empty($this->session->userdata('idpengguna'))) { 
@@ -280,6 +283,7 @@ class Penjualan extends CI_Controller {
                                 'desa' => $desa,
                                 'alamatpengiriman' => $alamatpengiriman,
                                 'idjasapengiriman' => $idjasapengiriman,
+                                'statuskonfirmasi' => $statuskonfirmasi,
                                 'tglinsert' => $tglinsert,
                                 'tglupdate' => $tglinsert,
                                 );
@@ -290,10 +294,11 @@ class Penjualan extends CI_Controller {
             foreach ($isidatatable as $item) {
                         $idprodukharga              = $item[1];
                         $idproduk                   = $item[2];
-                        $beratproduk              = untitik($item[4]);
-                        $hargaproduk              = untitik($item[5]);
-                        $qty                        = untitik($item[6]);
-                        $subtotal                        = untitik($item[7]);
+                        $idprodukbatchnumber                   = $item[4];
+                        $beratproduk              = untitik($item[6]);
+                        $hargaproduk              = untitik($item[7]);
+                        $qty                        = untitik($item[8]);
+                        $subtotal                        = untitik($item[9]);
                 $i++;
 
                 $detail = array(
@@ -303,15 +308,30 @@ class Penjualan extends CI_Controller {
                                 'hargaproduk' => $hargaproduk,
                                 'qty' => $qty,
                                 'subtotal' => $subtotal,
+                                'idprodukbatchnumber' => $idprodukbatchnumber,
                                 );
 
                 array_push($arraydetail, $detail);              
             }
 
 
-            $simpan  = $this->Penjualan_model->simpan($arrayhead, $arraydetail, $idpenjualan);
-        }else{
+            //-------------------------------- >> konfirmasi penjualan
+            $idpenjualankonfirmasi = $this->db->query("select create_idpenjualankonfirmasi('".date('Y-m-d')."') as idpenjualankonfirmasi ")->row()->idpenjualankonfirmasi;
 
+            $datakonfirmasi = array(
+                                    'idpenjualankonfirmasi' => $idpenjualankonfirmasi, 
+                                    'idpenjualan' => $idpenjualan, 
+                                    'tglpenjualankonfirmasi' => $tglpenjualan, 
+                                    'keteranganpenjualankonfirmasi' => 'Auto admin konfirmasi', 
+                                    'idpengguna' => $idpengguna, 
+                                    'tglinsert' => $tglinsert, 
+                                    'tglupdate' => $tglinsert, 
+                                );
+            // echo json_encode($datakonfirmasi);
+            // exit();
+
+            $simpan  = $this->Penjualan_model->simpan($arrayhead, $arraydetail, $idpenjualan, $datakonfirmasi);
+        }else{
 
             
             $arrayhead = array(
@@ -333,11 +353,13 @@ class Penjualan extends CI_Controller {
             $i=0;
             $arraydetail=array();       
             foreach ($isidatatable as $item) {
+                        $idprodukharga              = $item[1];
                         $idproduk                   = $item[2];
-                        $beratproduk              = untitik($item[4]);
-                        $hargaproduk              = untitik($item[5]);
-                        $qty                        = untitik($item[6]);
-                        $subtotal                        = untitik($item[7]);
+                        $idprodukbatchnumber                   = $item[4];
+                        $beratproduk              = untitik($item[6]);
+                        $hargaproduk              = untitik($item[7]);
+                        $qty                        = untitik($item[8]);
+                        $subtotal                        = untitik($item[9]);
                 $i++;
 
                 $detail = array(
@@ -347,13 +369,12 @@ class Penjualan extends CI_Controller {
                                 'hargaproduk' => $hargaproduk,
                                 'qty' => $qty,
                                 'subtotal' => $subtotal,
+                                'idprodukbatchnumber' => $idprodukbatchnumber,
                                 );
 
                 array_push($arraydetail, $detail);              
             }
-
             $simpan  = $this->Penjualan_model->update($arrayhead, $arraydetail, $idpenjualan);
-
         }
 
 
@@ -422,6 +443,32 @@ class Penjualan extends CI_Controller {
         $idkonsumen = $this->input->get('idkonsumen');
         $rowkonsumen = $this->db->query("select * from konsumen where idkonsumen='$idkonsumen'")->row();
         echo json_encode($rowkonsumen);
+    }
+
+    public function get_batchnumber()
+    {
+        $idproduk = $this->input->get('idproduk');
+        $rsbatchnumber = $this->db->query("select * from produkbatchnumber where idproduk='$idproduk' and stok>0");
+        $databatchnumber = array();
+
+        if ($rsbatchnumber->num_rows()>0) {
+            foreach ($rsbatchnumber->result() as $rowbatchnumber) {
+                array_push($databatchnumber, array(
+                                                'idprodukbatchnumber' => $rowbatchnumber->idprodukbatchnumber, 
+                                                'nomorbatch' => $rowbatchnumber->nomorbatch, 
+                                                'deskripsi' => $rowbatchnumber->deskripsi, 
+                                                'stok' => number_format($rowbatchnumber->stok)
+                                            ));        
+            }
+        }
+        echo json_encode($databatchnumber);   
+    }
+
+    public function getstokbatchnumber()
+    {
+        $idprodukbatchnumber = $this->input->get('idprodukbatchnumber');
+        $stok = $this->db->query("select * from produkbatchnumber where idprodukbatchnumber='".$idprodukbatchnumber."'")->row()->stok;
+        echo json_encode($stok);
     }
 
 }

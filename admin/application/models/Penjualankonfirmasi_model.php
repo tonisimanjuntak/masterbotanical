@@ -26,6 +26,7 @@ class Penjualankonfirmasi_model extends CI_Model {
 
     private function _get_datatables_query()
     {
+        $this->db->where('isfrontend', 'Yes');
         $this->db->from($this->tabelview);
         $i = 0;
      

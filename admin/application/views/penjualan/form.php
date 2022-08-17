@@ -179,10 +179,10 @@
                           <form action="<?php echo(site_url('Penjualan/simpan')) ?>" method="post" id="form">                      
                             <div class="row">
 
-                              <div class="col-md-4">
+                              <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="">Produk</label>
-                                    <select name="idproduk" id="idproduk" class="form-control">
+                                    <select name="idproduk" id="idproduk" class="form-control select2">
                                       <option value="">Pilih produk...</option>
                                       <?php
                                         $rs = $this->db->query("select * from v_produk order by namaproduk2");
@@ -194,23 +194,31 @@
                                 </div>
                               </div>
 
-                              
-
-                              <div class="col-md-2">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="">Batch Number</label>
+                                    <select name="idprodukbatchnumber" id="idprodukbatchnumber" class="form-control">
+                                      <option value="">Pilih batch number...</option>
+                                    </select>
+                                    <input type="hidden" name="stok" id="stok">
+                                </div>
+                              </div>
+                            
+                              <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="">Berat (KG)</label>
                                   <input type="text" name="beratproduk" id="beratproduk" class="form-control berat">
                                 </div>
                               </div>
 
-                              <div class="col-md-2">
+                              <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="">Harga Produk / KG (<?php echo $this->session->userdata('matauang'); ?>)</label>
                                   <input type="text" name="hargaproduk" id="hargaproduk" class="form-control rupiah">
                                 </div>
                               </div>
 
-                              <div class="col-md-2">
+                              <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="">Subtotal (<?php echo $this->session->userdata('matauang'); ?>)</label>
                                   <input type="text" name="subtotal" id="subtotal" class="form-control rupiah" disabled="">
@@ -235,8 +243,8 @@
                                   <input type="number" name="qty" id="qty" min="1" max="999" class="form-control" value="1">
                                 </div>
                               </div>
-                              <div class="col-md-2">
-                                <button class="btn btn-primary mt-4" type="submit" id="tambahkan">Tambahkan</button>
+                              <div class="col-md-3 text-center">
+                                <button class="btn btn-primary btn-lg mt-4" type="submit" id="tambahkan"><i class="fa fa-plus"></i> Tambahkan</button>
                               </div>
 
                             </div>
@@ -252,6 +260,8 @@
                                         <th style="">idprodukharga</th>
                                         <th style="">idproduk</th>
                                         <th style="">Nama Produk</th>
+                                        <th style="">idprodukbatchnumber</th>
+                                        <th style="">Batch Number</th>
                                         <th style="">Berat</th>
                                         <th style="">Harga</th>
                                         <th style="">Qty</th>
@@ -262,6 +272,8 @@
                                 <tbody>
                                 </tbody>
                                 <tfoot>
+                                  <th></th>
+                                  <th></th>
                                   <th></th>
                                   <th></th>
                                   <th></th>
@@ -303,6 +315,7 @@
 <script type="text/javascript">
   
   var idpenjualan = "<?php echo($idpenjualan) ?>";
+  var ledit = false;
 
   $(document).ready(function() {
 
@@ -335,7 +348,7 @@
                          
                                     // Total Semua Halaman
                                     total = api
-                                        .column( 7 )
+                                        .column( 9 )
                                         .data()
                                         .reduce( function (a, b) {
                                             return intVal(a) + intVal(b);
@@ -343,7 +356,7 @@
                          
                                     // Total Halaman Terkait
                                     pageTotal = api
-                                        .column( 7, { page: 'current'} )
+                                        .column( 9, { page: 'current'} )
                                         .data()
                                         .reduce( function (a, b) {
                                             return intVal(a) + intVal(b);
@@ -351,7 +364,7 @@
                                     
                                     jlhkeseluruhan = total;
                                     // Update footer
-                                    $( api.column( 7 ).footer() ).html(
+                                    $( api.column( 9 ).footer() ).html(
                                         '<?php echo $this->session->userdata('matauang'); ?> '+ numberWithCommas(total)                                        
                                     );
                                     $('#total').val( numberWithCommas(total) );
@@ -359,6 +372,7 @@
             "columnDefs": [
             { "targets": [ 1 ], "className": 'dt-body-center', "visible": false},
             { "targets": [ 2 ], "className": 'dt-body-center', "visible": false},
+            { "targets": [ 4 ], "className": 'dt-body-center', "visible": false},
             { "targets": [ 6 ], "orderable": false, "className": 'dt-body-center'},
             ],
      
@@ -377,17 +391,21 @@
           })      
           .done(function(result) {
             console.log(result);
+            ledit = true;
+
             $('#idpenjualan').val(result.idpenjualan);
             $('#tglpenjualan').val(result.tglpenjualan);
             $('#idkonsumen').val(result.idkonsumen).trigger('change');
-            $('#idjasapengiriman').val(result.idjasapengiriman).trigger('change');
+            $('#idjasapengiriman').val(result.idjasapengiriman).trigger('change');            
+            $('#metodepembayaran').val(result.metodepembayaran);
+            $('#keterangan').val(result.keterangan);
+
+
             $('#negara').val(result.negara);
             $('#propinsi').val(result.propinsi);
             $('#kota').val(result.kota);
             $('#desa').val(result.desa);
             $('#alamatpengiriman').val(result.alamatpengiriman);
-            $('#metodepembayaran').val(result.metodepembayaran);
-            $('#keterangan').val(result.keterangan);
           }); 
           
           $('#lbljudul').html('Edit Data Penjualan');
@@ -409,21 +427,28 @@
         idproduk: {
           validators:{
             notEmpty: {
-                message: "idproduk tidak boleh kosong"
+                message: "nama produk tidak boleh kosong"
             },
           }
         },
-        idprodukharga: {
+        idprodukbatchnumber: {
           validators:{
             notEmpty: {
-                message: "paket harga tidak boleh kosong"
+                message: "batch number tidak boleh kosong"
             },
           }
         },
-        qty: {
+        beratproduk: {
           validators:{
             notEmpty: {
-                message: "qty tidak boleh kosong"
+                message: "berat produk tidak boleh kosong"
+            },
+          }
+        },
+        hargaproduk: {
+          validators:{
+            notEmpty: {
+                message: "harga produk tidak boleh kosong"
             },
           }
         },
@@ -435,8 +460,11 @@
       
     var idproduk           = $('#idproduk').val();
     var idprodukharga           = $('#idprodukharga').val();
+    var idprodukbatchnumber           = $('#idprodukbatchnumber').val();
     var beratproduk           = $('#beratproduk').val();
     var hargaproduk           = $('#hargaproduk').val();
+    var stok = $('#stok').val();
+
     // var qty           = $('#qty').val();
     var qty           = 1;
 
@@ -450,12 +478,16 @@
           alert("harga produk tidak boleh kosong!!");
           return false;
         }
-      
-      var isicolomn = table.columns(1).data().toArray();
+        
+        if (parseInt(beratproduk)>parseInt(stok)) {
+          alert("Stok batch number tidak mencukupi!!");
+          return false; 
+        }
+      var isicolomn = table.columns(4).data().toArray();
       for (var i = 0; i < isicolomn.length; i++) {
         for (var j = 0; j < isicolomn[i].length; j++) {            
-          if (isicolomn[i][j] === idproduk) {
-              alert("Produk ini sudah ada!!");
+          if (isicolomn[i][j] === idprodukbatchnumber) {
+              alert("Batch number ini sudah ada!!");
               return false;
           }
         }
@@ -469,6 +501,8 @@
                             $("#idprodukharga").val(),
                             $("#idproduk").val(),
                             $( "#idproduk option:selected" ).text(),
+                            idprodukbatchnumber,
+                            $( "#idprodukbatchnumber option:selected" ).text(),
                             beratproduk,
                             hargaproduk,
                             qty,
@@ -479,6 +513,7 @@
         $("#idproduk").val("");
         $("#idprodukharga").val("");
         $("#qty").val("1");
+        $("#stok").val("0");
     });
   //------------------------------------------------------------------------> END VALIDASI DAN SIMPAN
 
@@ -620,8 +655,12 @@
     $("#idprodukharga").empty();
     $("#idprodukharga").append( new Option('Pilih paket harga produk...', '') );
 
+    $("#idprodukbatchnumber").empty();
+    $("#idprodukbatchnumber").append( new Option('Pilih batch number...', '') );
+
     if (idproduk!='') {
           
+          // get produk harga
           $.ajax({
             url: '<?php echo(site_url('Penjualan/get_produkharga')) ?>',
             type: 'GET',
@@ -640,6 +679,29 @@
           .fail(function() {
             console.log("error get produk harga");
           });
+
+
+          // get batch number
+          $.ajax({
+            url: '<?php echo site_url("Penjualan/get_batchnumber") ?>',
+            type: 'GET',
+            dataType: 'json',
+            data: {'idproduk': idproduk},
+          })
+          .done(function(resultbatchnumber) {
+            // console.log(resultbatchnumber);
+            if (resultbatchnumber.length>0 ) {
+
+              $.each(resultbatchnumber, function(index, val) {
+                 $("#idprodukbatchnumber").append( new Option(resultbatchnumber[index]['nomorbatch']+' - Stok '+resultbatchnumber[index]['stok'] + ' Kg', resultbatchnumber[index]['idprodukbatchnumber']) );
+              });
+            }            
+
+          })
+          .fail(function() {
+            console.log("error get batchnumber");
+          });
+          
 
         }    
     
@@ -678,35 +740,42 @@
   $('#idkonsumen').change(function() {
     var idkonsumen = $(this).val();
 
-    $("#negara").val();
-    $("#propinsi").val();
-    $("#kota").val();
-    $("#desa").val();
-    $("#alamatpengiriman").val();
+    if (!ledit) {
+        
+        $("#negara").val();
+        $("#propinsi").val();
+        $("#kota").val();
+        $("#desa").val();
+        $("#alamatpengiriman").val();
 
 
-    if (idkonsumen!='') {
-          
-          $.ajax({
-            url: '<?php echo(site_url('Penjualan/get_alamatpengiriman')) ?>',
-            type: 'GET',
-            dataType: 'json',
-            data: {'idkonsumen': idkonsumen},
-          })
-          .done(function(rowkonsumen) {
+        if (idkonsumen!='') {
+              
+              $.ajax({
+                url: '<?php echo(site_url('Penjualan/get_alamatpengiriman')) ?>',
+                type: 'GET',
+                dataType: 'json',
+                data: {'idkonsumen': idkonsumen},
+              })
+              .done(function(rowkonsumen) {
 
-            $("#negara").val(rowkonsumen['negara']);
-            $("#propinsi").val(rowkonsumen['propinsi']);
-            $("#kota").val(rowkonsumen['kota']);
-            $("#desa").val(rowkonsumen['desa']);
-            $("#alamatpengiriman").val(rowkonsumen['alamatpengiriman']);
+                $("#negara").val(rowkonsumen['negara']);
+                $("#propinsi").val(rowkonsumen['propinsi']);
+                $("#kota").val(rowkonsumen['kota']);
+                $("#desa").val(rowkonsumen['desa']);
+                $("#alamatpengiriman").val(rowkonsumen['alamatpengiriman']);
 
-          })
-          .fail(function() {
-            console.log("error get alamat pengiriman");
-          });
+              })
+              .fail(function() {
+                console.log("error get alamat pengiriman");
+              });
 
-        }    
+            }    
+        
+    }else{
+      ledit = false;
+    }
+    
     
   });
 
@@ -733,6 +802,31 @@
 
   }
 
+  $('#idprodukbatchnumber').change(function() {
+    idprodukbatchnumber = $(this).val();
+
+    if (idprodukbatchnumber!='') {
+      
+      $.ajax({
+        url: '<?php echo site_url("penjualan/getstokbatchnumber") ?>',
+        type: 'GET',
+        dataType: 'json',
+        data: {'idprodukbatchnumber': idprodukbatchnumber},
+      })
+      .done(function(resultstok) {
+        // console.log(resultstok);
+        $('#stok').val(resultstok);
+      })
+      .fail(function() {
+        console.log("error get stok batchnumber");
+      });
+
+    }else{
+      
+        $('#stok').val(0);
+    }
+    
+  });
 
 </script>
 

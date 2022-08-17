@@ -26,6 +26,7 @@ class Penjualan_model extends CI_Model {
 
     private function _get_datatables_query()
     {
+        $this->db->where('isfrontend', 'No');
         $this->db->from($this->tabelview);
         $i = 0;
      
@@ -85,6 +86,7 @@ class Penjualan_model extends CI_Model {
         $this->db->trans_begin();
 
         $this->db->query('delete from penjualandetail where idpenjualan="'.$idpenjualan.'"');
+        $this->db->query('delete from penjualankonfirmasi where idpenjualan="'.$idpenjualan.'"');
         $this->db->where('idpenjualan', $idpenjualan);      
         $this->db->delete('penjualan');
 
@@ -98,11 +100,12 @@ class Penjualan_model extends CI_Model {
         }
     }
 
-    public function simpan($arrayhead, $arraydetail, $idpenjualan)
+    public function simpan($arrayhead, $arraydetail, $idpenjualan, $datakonfirmasi)
     {       
         $this->db->trans_begin();
 
         $this->db->insert('penjualan', $arrayhead);
+        $this->db->insert('penjualankonfirmasi', $datakonfirmasi);
         $this->db->query('delete from penjualandetail where idpenjualan="'.$idpenjualan.'"');
         $this->db->insert_batch('penjualandetail', $arraydetail);
 
