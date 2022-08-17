@@ -49,10 +49,10 @@ class HomePetsitting extends CI_Controller
 
     public function simpanconsultation()
     {
-        $consulservice = $this->input->post('consulservice');
-        $consulname = $this->input->post('consulname');
+        $consulservice = htmlspecialchars($this->input->post('consulservice'));
+        $consulname = htmlspecialchars($this->input->post('consulname'));
         $consulemail = $this->input->post('consulemail');
-        $consulmessage = $this->input->post('consulmessage');
+        $consulmessage = htmlspecialchars($this->input->post('consulmessage'));
 
         $data = array(
                         'consulservice' => $consulservice, 
