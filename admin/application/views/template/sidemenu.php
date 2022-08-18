@@ -200,7 +200,7 @@ if (in_array($menu, $menudropdown)) {
 
 
           <?php
-$menudropdown = array("pengguna", "karyawan", "jenis", "produk", "bahan", "produkbahan", "jasapengiriman", "konsumen", "supplier", "bank", "batchnumber");
+$menudropdown = array("pengguna", "karyawan", "jenis", "produk", "bahan", "produkbahan", "jasapengiriman", "konsumen", "supplier", "bank", "batchnumber", "akun1", "akun2", "akun3", "akun4");
 if (in_array($menu, $menudropdown)) {
     $dropdownselected = true;
 } else {
@@ -233,36 +233,6 @@ if (in_array($menu, $menudropdown)) {
                     </a>
                   </li>
 
-
-                  <li class="nav-item">
-                    <a href="<?php echo (site_url("jenis")) ?>" class="nav-link <?php echo ($menu == 'jenis') ? 'active' : '' ?>">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Jenis Produk</p>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="<?php echo (site_url("produk")) ?>" class="nav-link <?php echo ($menu == 'produk') ? 'active' : '' ?>">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Data Produk</p>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="<?php echo (site_url("batchnumber")) ?>" class="nav-link <?php echo ($menu == 'batchnumber') ? 'active' : '' ?>">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Batchnumber</p>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="<?php echo (site_url("bahan")) ?>" class="nav-link <?php echo ($menu == 'bahan') ? 'active' : '' ?>">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Data Bahan</p>
-                    </a>
-                  </li>
-
-
                   <li class="nav-item">
                     <a href="<?php echo (site_url("jasapengiriman")) ?>" class="nav-link <?php echo ($menu == 'jasapengiriman') ? 'active' : '' ?>">
                       <i class="far fa-circle nav-icon"></i>
@@ -277,18 +247,115 @@ if (in_array($menu, $menudropdown)) {
                     </a>
                   </li>
 
-                  <!-- <li class="nav-item">
+                  <li class="nav-item">
                     <a href="<?php echo (site_url("konsumen")) ?>" class="nav-link <?php echo ($menu == 'konsumen') ? 'active' : '' ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Konsumen</p>
                     </a>
-                  </li> -->
+                  </li>
 
                   <li class="nav-item">
                     <a href="<?php echo (site_url("supplier")) ?>" class="nav-link <?php echo ($menu == 'supplier') ? 'active' : '' ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Supplier</p>
                     </a>
+                  </li>
+
+
+                  <?php
+                  $menudropdown = array("akun1", "akun2", "akun3", "akun4");
+                  if (in_array($menu, $menudropdown)) {
+                      $dropdownselected = true;
+                  } else {
+                      $dropdownselected = false;
+                  }
+                  ?>
+                  <li class="nav-item has-treeview <?php echo ($dropdownselected) ? 'menu-open' : '' ?>">
+                          <a href="#" class="nav-link <?php echo ($dropdownselected) ? 'active' : '' ?>">
+                            <i class="nav-icon fas fa-bars"></i>
+                            <p>
+                              Akun
+                              <i class="right fas fa-angle-left"></i>
+                            </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+
+                              <li class="nav-item">
+                                <a href="<?php echo (site_url("akun1")) ?>" class="nav-link <?php echo ($menu == 'akun1') ? 'active' : '' ?>">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Akun 1</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="<?php echo (site_url("akun2")) ?>" class="nav-link <?php echo ($menu == 'akun2') ? 'active' : '' ?>">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Akun 2</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="<?php echo (site_url("akun3")) ?>" class="nav-link <?php echo ($menu == 'akun3') ? 'active' : '' ?>">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Akun 3</p>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="<?php echo (site_url("akun4")) ?>" class="nav-link <?php echo ($menu == 'akun4') ? 'active' : '' ?>">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Akun 4</p>
+                                </a>
+                              </li>
+
+                          </ul>
+                  </li>
+
+
+                  <?php
+                  $menudropdown = array("jenis", "produk", "batchnumber", "bahan");
+                  if (in_array($menu, $menudropdown)) {
+                      $dropdownselected = true;
+                  } else {
+                      $dropdownselected = false;
+                  }
+                  ?>
+                  <li class="nav-item has-treeview <?php echo ($dropdownselected) ? 'menu-open' : '' ?>">
+                          <a href="#" class="nav-link <?php echo ($dropdownselected) ? 'active' : '' ?>">
+                            <i class="nav-icon fas fa-bars"></i>
+                            <p>
+                              Produk
+                              <i class="right fas fa-angle-left"></i>
+                            </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                              <a href="<?php echo (site_url("jenis")) ?>" class="nav-link <?php echo ($menu == 'jenis') ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Jenis Produk</p>
+                              </a>
+                            </li>
+
+                            <li class="nav-item">
+                              <a href="<?php echo (site_url("produk")) ?>" class="nav-link <?php echo ($menu == 'produk') ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Produk</p>
+                              </a>
+                            </li>
+
+                            <li class="nav-item">
+                              <a href="<?php echo (site_url("batchnumber")) ?>" class="nav-link <?php echo ($menu == 'batchnumber') ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Batchnumber</p>
+                              </a>
+                            </li>
+
+                            <li class="nav-item">
+                              <a href="<?php echo (site_url("bahan")) ?>" class="nav-link <?php echo ($menu == 'bahan') ? 'active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Bahan</p>
+                              </a>
+                            </li>                              
+
+                          </ul>
                   </li>
 
 
@@ -336,7 +403,7 @@ if (in_array($menu, $menudropdown)) {
 ?>
                   <li class="nav-item has-treeview <?php echo ($dropdownselected) ? 'menu-open' : '' ?>">
                           <a href="#" class="nav-link <?php echo ($dropdownselected) ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-database"></i>
+                            <i class="nav-icon fas fa-bars"></i>
                             <p>
                               Penggilingan
                               <i class="right fas fa-angle-left"></i>
