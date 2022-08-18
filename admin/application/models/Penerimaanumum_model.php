@@ -86,6 +86,9 @@ class Penerimaanumum_model extends CI_Model {
     {
         $this->db->trans_begin();
 
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpenerimaanumum . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpenerimaanumum . '"');
+
         $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
         $this->db->where('idpenerimaanumum', $idpenerimaanumum);
         $this->db->delete('penerimaanumum');
@@ -107,6 +110,44 @@ class Penerimaanumum_model extends CI_Model {
         $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
         $this->db->insert_batch('penerimaanumumdetail', $arraydetail);
 
+        //jurnal
+        $datajurnal = array(
+                        'idjurnal' => $arrayhead['idpenerimaanumum'],
+                        'tgljurnal' => $arrayhead['tglpenerimaanumum'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpenerimaanumum'], 
+                        'jenistransaksi' => 'Penerimaan Umum'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+        // jurnal detail
+        $kdakunkaspenerimaanumum = $this->db->query("select kdakunkaspenerimaanumum from pengaturan")->row()->kdakunkaspenerimaanumum;
+        $jumlahpasangan = 0;
+        $datadebet = array();        
+        $datakredit = array();        
+        $nourut = 2;
+        foreach ($arraydetail as $row) {            
+            array_push($datakredit, array(
+                    'idjurnal' => $row['idpenerimaanumum'], 
+                    'kdakun4' => $row['kdakun4'], 
+                    'debet' => 0, 
+                    'kredit' => $row['jumlahpenerimaan'], 
+                    'nourut' => $nourut
+                 ));
+            $nourut++;
+            $jumlahpasangan += $row['jumlahpenerimaan'];
+        }
+
+        array_push($datadebet, array(
+                    'idjurnal' => $arrayhead['idpenerimaanumum'], 
+                    'kdakun4' => $kdakunkaspenerimaanumum, 
+                    'debet' => $jumlahpasangan, 
+                    'kredit' => 0, 
+                    'nourut' => 1
+                 ));
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
+
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
             return false;
@@ -119,11 +160,53 @@ class Penerimaanumum_model extends CI_Model {
     public function update($arrayhead, $arraydetail, $idpenerimaanumum)
     {
         $this->db->trans_begin();
+        $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpenerimaanumum . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpenerimaanumum . '"');
+
+
         $this->db->where('idpenerimaanumum', $idpenerimaanumum);
         $this->db->update('penerimaanumum', $arrayhead);
-
-        $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
         $this->db->insert_batch('penerimaanumumdetail', $arraydetail);
+
+
+        //jurnal
+        $datajurnal = array(
+                        'idjurnal' => $arrayhead['idpenerimaanumum'],
+                        'tgljurnal' => $arrayhead['tglpenerimaanumum'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpenerimaanumum'], 
+                        'jenistransaksi' => 'Penerimaan Umum'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+        // jurnal detail
+        $kdakunkaspenerimaanumum = $this->db->query("select kdakunkaspenerimaanumum from pengaturan")->row()->kdakunkaspenerimaanumum;
+        $jumlahpasangan = 0;
+        $datadebet = array();        
+        $datakredit = array();        
+        $nourut = 2;
+        foreach ($arraydetail as $row) {            
+            array_push($datakredit, array(
+                    'idjurnal' => $row['idpenerimaanumum'], 
+                    'kdakun4' => $row['kdakun4'], 
+                    'debet' => 0, 
+                    'kredit' => $row['jumlahpenerimaan'], 
+                    'nourut' => $nourut
+                 ));
+            $nourut++;
+            $jumlahpasangan += $row['jumlahpenerimaan'];
+        }
+
+        array_push($datadebet, array(
+                    'idjurnal' => $arrayhead['idpenerimaanumum'], 
+                    'kdakun4' => $kdakunkaspenerimaanumum, 
+                    'debet' => $jumlahpasangan, 
+                    'kredit' => 0, 
+                    'nourut' => 1
+                 ));
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();

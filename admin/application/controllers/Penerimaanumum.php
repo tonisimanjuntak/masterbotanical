@@ -166,6 +166,8 @@ class Penerimaanumum extends CI_Controller {
         $keterangan           = $this->input->post('keterangan');
         $totalpenerimaanumum = untitik($this->input->post('totalpenerimaanumum'));
         $idpengguna           = $this->session->userdata('idpengguna');
+        $tglinsert              = date('Y-m-d H:i:s');
+        $tglupdate              = date('Y-m-d H:i:s');
 
         //jika session berakhir
         if (empty($idpengguna)) {
@@ -183,6 +185,8 @@ class Penerimaanumum extends CI_Controller {
                 'keterangan'           => $keterangan,
                 'totalpenerimaanumum' => $totalpenerimaanumum,
                 'idpengguna'           => $idpengguna,
+                'tglinsert'           => $tglinsert,
+                'tglupdate'           => $tglupdate,
             );
 
             //-------------------------------- >> simpan dari datatable
@@ -213,6 +217,7 @@ class Penerimaanumum extends CI_Controller {
                 'keterangan'           => $keterangan,
                 'totalpenerimaanumum' => $totalpenerimaanumum,
                 'idpengguna'           => $idpengguna,
+                'tglupdate'           => $tglupdate,
             );
 
             //-------------------------------- >> simpan dari datatable
