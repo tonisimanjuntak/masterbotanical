@@ -5,18 +5,18 @@ class Jurnalpenyesuaian_model extends CI_Model {
 
 	// ------------------------- >   Ubah Data Disini Aja
 
-	var $tabelview = 'v_jurnalumum';
-	var $tabel     = 'jurnal';
-	var $idjurnal = 'idjurnal';
+    var $tabelview = 'v_jurnal';
+    var $tabel     = 'jurnal';
+    var $idjurnal = 'idjurnal';
 
-    var $column_order = array(null, 'idjurnal', 'tgljurnal', 'deskripsi', 'jumlah', null); //set nama field yang bisa diurutkan
-    var $column_search = array('idjurnal', 'tgljurnal', 'deskripsi'); //set nama field yang akan di cari
+    var $column_order = array(null,'tgljurnal','deskripsi','jumlah', null );
+    var $column_search = array('tgljurnal','deskripsi','jumlah');
     var $order = array('idjurnal' => 'desc'); // default order 
 
     // ----------------------------
 
 
-	function get_datatables()
+    function get_datatables()
     {
         $this->_get_datatables_query();
         if($_POST['length'] != -1)
@@ -24,10 +24,9 @@ class Jurnalpenyesuaian_model extends CI_Model {
         return $this->db->get();        
     }
 
-	private function _get_datatables_query()
+    private function _get_datatables_query()
     {
         $this->db->from($this->tabelview);
-        $this->db->where('jenistransaksi', 'JP');
         $i = 0;
      
         foreach ($this->column_search as $item) 
@@ -67,8 +66,7 @@ class Jurnalpenyesuaian_model extends CI_Model {
     public function count_all()
     {
         $this->db->select('count(*) as jlh');
-        // $this->db->from($this->tabelview);
-        return $this->db->get('jurnal')->row()->jlh;
+        return $this->db->get($this->tabelview)->row()->jlh;
     }
 
     public function get_all()
@@ -76,89 +74,70 @@ class Jurnalpenyesuaian_model extends CI_Model {
         return $this->db->get($this->tabelview);
     }
 
-    public function get_by_id($id)
+    public function get_by_id($idjurnal)
     {
-        $this->db->where('idjurnal', $id);
+        $this->db->where('idjurnal', $idjurnal);
         return $this->db->get($this->tabelview);
     }
 
-    public function get_detail_by_id($id)
+
+    public function get_detail_by_id($idjurnal)
     {
-        $this->db->where('idjurnal', $id);
+        $this->db->where('idjurnal', $idjurnal);
         return $this->db->get('v_jurnaldetail');
     }
 
-    public function hapus($id)
+    public function hapus($idjurnal)
     {
         $this->db->trans_begin();
 
-        $this->db->where('idjurnal', $id);     
-        $this->db->delete('jurnaldetail');
-        
-        $this->db->where('idjurnal', $id);     
+        $this->db->query('delete from jurnaldetail where idjurnal="'.$idjurnal.'"');
+        $this->db->where('idjurnal', $idjurnal);      
         $this->db->delete('jurnal');
 
 
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE){
                 $this->db->trans_rollback();
                 return false;
-        }
-        else
-        {
+        }else{
                 $this->db->trans_commit();
                 return true;
         }
-        
     }
 
-    public function simpan($data, $arrDetail, $idjurnal)
-    {   
+    public function simpan($arrayhead, $arraydetail, $idjurnal)
+    {       
         $this->db->trans_begin();
 
-    	$this->db->insert('jurnal', $data);
+        $this->db->insert('jurnal', $arrayhead);
         $this->db->query('delete from jurnaldetail where idjurnal="'.$idjurnal.'"');
-        $this->db->insert_batch('jurnaldetail', $arrDetail);
+        $this->db->insert_batch('jurnaldetail', $arraydetail);
 
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE){
                 $this->db->trans_rollback();
                 return false;
-        }
-        else
-        {
+        }else{
                 $this->db->trans_commit();
                 return true;
         }
-
     }
 
-    public function update($data, $arrDetail, $idjurnal)
+    public function update($arrayhead, $arraydetail, $idjurnal)
     {
-
         $this->db->trans_begin();
-
-        $this->db->start_cache();
         $this->db->where('idjurnal', $idjurnal);
-        $this->db->stop_cache();
+        $this->db->update('jurnal', $arrayhead);
 
-        $this->db->update('jurnal', $data);
-
-        $this->db->flush_cache();
         $this->db->query('delete from jurnaldetail where idjurnal="'.$idjurnal.'"');
-        $this->db->insert_batch('jurnaldetail', $arrDetail);
+        $this->db->insert_batch('jurnaldetail', $arraydetail);
 
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE){
                 $this->db->trans_rollback();
                 return false;
-        }
-        else
-        {
+        }else{
                 $this->db->trans_commit();
                 return true;
         }
-
     }
 
 }

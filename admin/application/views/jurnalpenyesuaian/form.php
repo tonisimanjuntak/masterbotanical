@@ -1,147 +1,142 @@
 <?php  
-    $this->load->view('template/header');
-    $this->load->view('template/topmenu');
-    // $this->load->view('template/ui-theme-settings');
-    $this->load->view('template/sidemenu');
-?>        
+  $this->load->view("template/header");
+  $this->load->view("template/topmenu");
+  $this->load->view("template/sidemenu");
+?>
+
+  <div class="row" id="toni-breadcrumb">
+    <div class="col-6">
+        <h4 class="text-dark mt-2">Jurnal Penyesuaian</h4>
+    </div>  
+    <div class="col-6">
+      <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="<?php echo(site_url()) ?>">Home</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo(site_url('jurnalpenyesuaian')) ?>">Jurnal Penyesuaian</a></li>
+        <li class="breadcrumb-item active" id="lblactive"></li>
+      </ol>
+      
+    </div>
+  </div>
 
 
-<div class="app-main__outer">
-    <div class="app-main__inner">
-
-        <div class="app-page-title">
-            <div class="page-title-wrapper">
-                <div class="page-title-heading">
-                    <div class="page-title-icon">
-                        <i class="text-info" id="icon-header">
-                        </i>
-                    </div>
-                    <div id="page-title">Tambah Data Jurnal Penyesuaian</div>
-                </div>
-                <div class="page-title-actions">
-                    <a href="<?php echo(site_url('jurnalpenyesuaian')) ?>" class="btn-wide btn btn-gradient-warning btn-pill btn-shadow btn-sm"><i class="fa fa-chevron-left mr-2"></i>Kembali</a>
-                </div>    
-            </div>
-        </div> <!-- app-page-title -->
+  <div class="row" id="toni-content">
+    <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card" id="cardcontent">
+              <div class="card-body">
 
 
-        <div class="tabs-animation">
-
-            
-            <form action="<?php echo(site_url('Jurnalpenyesuaian/simpan')) ?>" id="form" method="post" enctype="multipart/form-data">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="card bg-light">
-                      <div class="card-body p-2">
-                        <div class="row">
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label for="">Id Jurnal</label>
-                              <input type="text" id="idjurnal" name="idjurnal" class="form-control form-control-sm" placeholder="Id Jurnal (Otomatis)" readonly="">
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group required">
-                              <label for="">Tgl Jurnal</label>
-                              <input type="text" id="tgljurnal" name="tgljurnal" class="form-control form-control-sm" value="<?php echo(date('d-m-Y')) ?>">
-                            </div>
-                          </div>
-                          <div class="col-md-1"></div>
-                          <div class="col-md-7">
-                            <div class="row">
-                              <label for="" class="col-md-3 text-right">Deskripsi</label>
-                              <div class="col-md-9">
-                                <textarea name="deskripsi" id="deskripsi" class="form-control form-control-sm" rows="2" autofocus=""></textarea>
-                                
-                              </div>
-                              
-                            </div>
-                          </div>                                  
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="col-md-12 mt-3">
-                    <div class="table-responsive">
-                        <table id="table" class="display" style="width:100%;">
-                          <thead class="text-light" style="background-color:#055F93;">
-                              <tr class="th-jurnal">
-                                  <th style="text-align: center;">Akun</th>
-                                  <th style="text-align: center; width: 20%;">Debet (Rp.)</th>
-                                  <th style="text-align: center; width: 20%;">Kredit (Rp.)</th>
-                                  <th style="text-align: center; width: 5%;">#</th>                        
-                              </tr>
-                          </thead>
-                          <tbody>
-                              
-                              
-                          </tbody>
-                          </table>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
+                  <form action="<?php echo(site_url('Jurnalpenyesuaian/simpan')) ?>" id="form" method="post" enctype="multipart/form-data">
                     <div class="row">
-                      <div class="col-md-12"><hr></div>
-                      <div class="col-md-4">
-                          <span class="btn btn-sm btn-success" id="addrow"><i class="fa fa-plus"></i> Tambah Baris (F2)</span>
-                      </div>
-                      <div class="col-md-8">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="input-group input-group-sm">
-                              <div class="input-group-prepend" style="font-weight: bold;">
-                                <span class="input-group-text text-light" style="background-color:#055F93;">Total Debet (Rp.)</span>
+                      <div class="col-md-12">
+                        <div class="card bg-light">
+                          <div class="card-body p-2">
+                            <div class="row">
+                              <div class="col-md-2">
+                                <div class="form-group">
+                                  <label for="">Id Jurnal</label>
+                                  <input type="text" id="idjurnal" name="idjurnal" class="form-control form-control-sm" placeholder="Id Jurnal (Otomatis)" readonly="">
+                                </div>
                               </div>
-                              <input type="text" class="form-control text-right font-weight-bold" name="totaldebet" readonly="" id="totaldebet">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="input-group input-group-sm">
-                              <div class="input-group-prepend" style="font-weight: bold;">
-                                <span class="input-group-text text-light" style="background-color:#055F93;">Total Kredit (Rp.)</span>
+                              <div class="col-md-2">
+                                <div class="form-group required">
+                                  <label for="">Tgl Jurnal</label>
+                                  <input type="text" id="tgljurnal" name="tgljurnal" class="form-control form-control-sm" value="<?php echo(date('d-m-Y')) ?>">
+                                </div>
                               </div>
-                              <input type="text" class="form-control text-right font-weight-bold" name="totalkredit" readonly="" id="totalkredit">
+                              <div class="col-md-1"></div>
+                              <div class="col-md-7">
+                                <div class="row">
+                                  <label for="" class="col-md-3 text-right">Deskripsi</label>
+                                  <div class="col-md-9">
+                                    <textarea name="deskripsi" id="deskripsi" class="form-control form-control-sm" rows="2" autofocus=""></textarea>
+                                    
+                                  </div>
+                                  
+                                </div>
+                              </div>                                  
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 text-right d-block p-3 mt-4">
                       
-                            <a href="<?php echo(site_url('jurnalpenyesuaian')) ?>" class="btn-pill btn-shadow btn-wide fsize-1 btn btn-gradient-warning btn-lg"><i class="fa fa-chevron-left mr-2"></i>Kembali</a>
-                            <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-gradient-info btn-lg">
-                                <span class="mr-1">Simpan</span>
-                                <span class="mr-2 opacity-7">
-                                    <i class="fa fa-save"></i>
-                                </span>
-                            </button>
+                      <div class="col-md-12 mt-3">
+                        <div class="table-responsive">
+                            <table id="table" class="display" style="width:100%;">
+                              <thead class="text-light" style="background-color:#055F93;">
+                                  <tr class="th-jurnal">
+                                      <th style="text-align: center;">Akun</th>
+                                      <th style="text-align: center; width: 20%;">Debet (Rp.)</th>
+                                      <th style="text-align: center; width: 20%;">Kredit (Rp.)</th>
+                                      <th style="text-align: center; width: 5%;">#</th>                        
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  
+                                  
+                              </tbody>
+                              </table>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12"><hr></div>
+                          <div class="col-md-4">
+                              <span class="btn btn-sm btn-success" id="addrow"><i class="fa fa-plus"></i> Tambah Baris (F2)</span>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend" style="font-weight: bold;">
+                                    <span class="input-group-text text-light" style="background-color:#055F93;">Total Debet (Rp.)</span>
+                                  </div>
+                                  <input type="text" class="form-control text-right font-weight-bold" name="totaldebet" readonly="" id="totaldebet">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                  <div class="input-group-prepend" style="font-weight: bold;">
+                                    <span class="input-group-text text-light" style="background-color:#055F93;">Total Kredit (Rp.)</span>
+                                  </div>
+                                  <input type="text" class="form-control text-right font-weight-bold" name="totalkredit" readonly="" id="totalkredit">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                  </div>
+                      <div class="col-md-12 text-right d-block p-3 mt-4">
+                          
+                                <button class="btn btn-info float-right" id="simpan"><i class="fa fa-save"></i> Simpan</button>
+                                <a href="<?php echo(site_url('jurnalpenyesuaian')) ?>" class="btn btn-default float-right mr-1 ml-1"><i class="fa fa-chevron-circle-left"></i> Kembali</a>
+
+                      </div>
 
 
-                </div>
-              </form>    
+                    </div>
+                  </form>    
 
-            
-            
+
+              </div> <!-- ./card-body -->
+
+              
+            </div> <!-- /.card -->
+          </div> <!-- /.col -->
         </div>
-    </div> <!-- app-main__inner -->
+    </div>
+  </div> <!-- /.row -->
+  <!-- Main row -->
+
+      
+
+<?php $this->load->view("template/footer") ?>
 
 
-    <?php 
-        $this->load->view('template/footer'); 
-    ?>
-
-</div> <!-- app-main__outer -->
 
 
-<?php 
-    // $this->load->view('template/right-top-drawer'); 
-    $this->load->view('template/footer-script');
-?> 
 
 
 
@@ -185,11 +180,9 @@ var idjurnal = "<?php echo($idjurnal) ?>";
             })
             hitungtotal();
           }); // end ajax.done
-          $('#page-title').html('Edit Data Jurnal Penyesuaian');
-          $('#icon-header').addClass('fa fa-edit')
+          $('#lblactive').html('Edit Data');
     }else{
-          $('#icon-header').addClass('fa fa-plus-circle')
-          $('#page-title').html('Tambah Data Jurnal Penyesuaian');
+          $('#lblactive').html('Tambah Data');
           tambahrow();
           tambahrow();
     } 
@@ -204,9 +197,8 @@ var idjurnal = "<?php echo($idjurnal) ?>";
 
   $('#form').submit(function(e) {
 
-
         if ($('#table tbody tr').length=0) {
-            swal("Required!", "Tabel jurnal tidak boleh kosong!", "info")
+            alert("Tabel jurnal tidak boleh kosong")
             e.preventDefault();
             $('#simpan').prop('readonly', false);
             $('#simpan').prop('disabled', false);
@@ -214,21 +206,19 @@ var idjurnal = "<?php echo($idjurnal) ?>";
         }
 
       if ($('#totaldebet').val()=='') {
-            swal("Required!", "Total debet tidak boleh kosong!", "info")
+            alert("Total debet tidak boleh kosong")
             e.preventDefault();
             return false;
         }
 
         if ($('#totalkredit').val()=='') {
-            swal("Required!", "Total kredit tidak boleh kosong!", "info")
+            alert("Total kredit tidak boleh kosong")
             e.preventDefault();
             return false;
         }
 
-        
-
         if ( $('#totaldebet').val() != $('#totalkredit').val()) {
-            swal("Required!", "Total debet dan Total kredit harus sama!", "info")
+            alert("Total debet dan total kredit harus sama")
             e.preventDefault();
             return false;
         }

@@ -632,7 +632,7 @@ if (in_array($menu, $menudropdown)) {
                     </a>
                   </li>
 
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a href="<?php echo (site_url("laplabarugi")) ?>" class="nav-link <?php echo ($menu == 'laplabarugi') ? 'active' : '' ?>">
                       <i class="fas fa-print nav-icon"></i>
                       <p>Lap. Laba Rugi</p>
@@ -651,7 +651,7 @@ if (in_array($menu, $menudropdown)) {
                       <i class="fas fa-print nav-icon"></i>
                       <p>Lap. Neraca</p>
                     </a>
-                  </li>
+                  </li> -->
 
 
 
