@@ -7,7 +7,7 @@ class Pengeluaranumum_model extends CI_Model
     // ------------------------- >   Ubah Data Disini Aja
 
     public $tabelview         = 'v_pengeluaranumum';
-    public $tabel             = 'pengeluaran';
+    public $tabel             = 'pengeluaranumum';
     public $idpengeluaranumum = 'idpengeluaranumum';
 
     public $column_order  = array(null, 'tglpengeluaranumum', 'keterangan', 'totalpengeluaranumum', 'idpengguna');
@@ -87,9 +87,9 @@ class Pengeluaranumum_model extends CI_Model
     {
         $this->db->trans_begin();
 
-        $this->db->query('delete from pengeluarandetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
+        $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
         $this->db->where('idpengeluaranumum', $idpengeluaranumum);
-        $this->db->delete('pengeluaran');
+        $this->db->delete('pengeluaranumum');
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
@@ -104,9 +104,9 @@ class Pengeluaranumum_model extends CI_Model
     {
         $this->db->trans_begin();
 
-        $this->db->insert('pengeluaran', $arrayhead);
-        $this->db->query('delete from pengeluarandetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
-        $this->db->insert_batch('pengeluarandetail', $arraydetail);
+        $this->db->insert('pengeluaranumum', $arrayhead);
+        $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
+        $this->db->insert_batch('pengeluaranumumdetail', $arraydetail);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
@@ -121,10 +121,10 @@ class Pengeluaranumum_model extends CI_Model
     {
         $this->db->trans_begin();
         $this->db->where('idpengeluaranumum', $idpengeluaranumum);
-        $this->db->update('pengeluaran', $arrayhead);
+        $this->db->update('pengeluaranumum', $arrayhead);
 
-        $this->db->query('delete from pengeluarandetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
-        $this->db->insert_batch('pengeluarandetail', $arraydetail);
+        $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
+        $this->db->insert_batch('pengeluaranumumdetail', $arraydetail);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();

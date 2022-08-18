@@ -56,7 +56,7 @@ if (!empty($pesan)) {
                   <div class="form-group row required">
                     <label for="" class="col-md-2 col-form-label">Total Pengeluaran</label>
                     <div class="col-md-4">
-                      <input type="text" name="totalpengeluaranumum" id="totalpengeluaranumum" class="form-control rupiah" readonly="">
+                      <input type="text" name="totalpengeluaranumum" id="totalpengeluaranumum" class="form-control dollar" readonly="">
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -86,7 +86,7 @@ foreach ($rs->result() as $row) {
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label for="">Jumlah Pengeluaran</label>
-                                  <input type="text" name="jumlahpengeluaran" id="jumlahpengeluaran" class="form-control rupiah">
+                                  <input type="text" name="jumlahpengeluaran" id="jumlahpengeluaran" class="form-control dollar">
                                 </div>
                               </div>
                               <div class="col-md-2">
@@ -176,7 +176,7 @@ foreach ($rs->result() as $row) {
                                     // Hilangkan format number untuk menghitung sum
                                     var intVal = function ( i ) {
                                         return typeof i === 'string' ?
-                                            i.replace(/[\$,.]/g, '')*1 :
+                                            i.replace(/[\$,]/g, '')*1 :
                                             typeof i === 'number' ?
                                                 i : 0;
                                     };
@@ -200,10 +200,10 @@ foreach ($rs->result() as $row) {
                                     jlhkeseluruhan = total;
                                     // Update footer
                                     $( api.column( 4 ).footer() ).html(
-                                        'Rp. '+ numberWithCommas(total)
+                                        'Rp. '+ format_dollar(total)
                                     );
-                                    $('#total').val( numberWithCommas(total) );
-                                    $('#totalpengeluaranumum').val( numberWithCommas(total) );
+                                    $('#total').val( format_dollar(total) );
+                                    $('#totalpengeluaranumum').val( format_dollar(total) );
                                 },
             "columnDefs": [
             { "targets": [ 1 ], "className": 'dt-body-center', "visible": false},
@@ -220,7 +220,7 @@ foreach ($rs->result() as $row) {
     if ( idpengeluaranumum != "" ) {
           $.ajax({
               type        : 'POST',
-              url         : '<?php echo site_url("Pengeluaran/get_edit_data") ?>',
+              url         : '<?php echo site_url("Pengeluaranumum/get_edit_data") ?>',
               data        : {idpengeluaranumum: idpengeluaranumum},
               dataType    : 'json',
               encode      : true
@@ -351,7 +351,6 @@ foreach ($rs->result() as $row) {
       }
 
       var isidatatable = table.data().toArray();
-
       var formData = {
               "idpengeluaranumum"       : idpengeluaranumum,
               "tglpengeluaranumum"       : tglpengeluaranumum,
@@ -361,11 +360,11 @@ foreach ($rs->result() as $row) {
               "isidatatable"    : isidatatable
           };
 
-      //console.log(isidatatable);
+      // console.log(isidatatable);
       // console.log(formData);
       $.ajax({
                 type        : 'POST',
-                url         : '<?php echo site_url("Pengeluaran/simpan") ?>',
+                url         : '<?php echo site_url("Pengeluaranumum/simpan") ?>',
                 data        : formData,
                 dataType    : 'json',
                 encode      : true

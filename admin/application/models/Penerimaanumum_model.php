@@ -88,7 +88,7 @@ class Penerimaanumum_model extends CI_Model {
 
         $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
         $this->db->where('idpenerimaanumum', $idpenerimaanumum);
-        $this->db->delete('penerimaan');
+        $this->db->delete('penerimaanumum');
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
@@ -103,7 +103,7 @@ class Penerimaanumum_model extends CI_Model {
     {
         $this->db->trans_begin();
 
-        $this->db->insert('penerimaan', $arrayhead);
+        $this->db->insert('penerimaanumum', $arrayhead);
         $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
         $this->db->insert_batch('penerimaanumumdetail', $arraydetail);
 
@@ -120,7 +120,7 @@ class Penerimaanumum_model extends CI_Model {
     {
         $this->db->trans_begin();
         $this->db->where('idpenerimaanumum', $idpenerimaanumum);
-        $this->db->update('penerimaan', $arrayhead);
+        $this->db->update('penerimaanumum', $arrayhead);
 
         $this->db->query('delete from penerimaanumumdetail where idpenerimaanumum="' . $idpenerimaanumum . '"');
         $this->db->insert_batch('penerimaanumumdetail', $arraydetail);

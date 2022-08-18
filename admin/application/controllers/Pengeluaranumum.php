@@ -68,7 +68,7 @@ class Pengeluaranumum extends CI_Controller
                 $row[] = $no;
                 $row[] = $rowdata->idpengeluaranumum . '<br>' . $rowdata->tglpengeluaranumum;
                 $row[] = $rowdata->keterangan;
-                $row[] = format_rupiah($rowdata->totalpengeluaranumum);
+                $row[] = format_dollar($rowdata->totalpengeluaranumum);
                 $row[] = $rowdata->namapengguna;
                 $row[] = '<a href="' . site_url('pengeluaranumum/edit/' . $this->encrypt->encode($rowdata->idpengeluaranumum)) . '" class="btn btn-sm btn-warning btn-circle"><i class="fa fa-edit"></i></a> |
                         <a href="' . site_url('pengeluaranumum/delete/' . $this->encrypt->encode($rowdata->idpengeluaranumum)) . '" class="btn btn-sm btn-danger btn-circle" id="hapus"><i class="fa fa-trash"></i></a>';
@@ -106,7 +106,7 @@ class Pengeluaranumum extends CI_Controller
                 $row[]  = $rowdata->idpengeluaranumum;
                 $row[]  = $rowdata->kdakun4;
                 $row[]  = $rowdata->namaakun4;
-                $row[]  = $rowdata->jumlahpengeluaran;
+                $row[]  = format_dollar($rowdata->jumlahpengeluaran);
                 $row[]  = '<span class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></span>';
                 $data[] = $row;
             }
@@ -168,6 +168,8 @@ class Pengeluaranumum extends CI_Controller
         $totalpengeluaranumum = untitik($this->input->post('totalpengeluaranumum'));
         $idpengguna           = $this->session->userdata('idpengguna');
 
+        
+
         //jika session berakhir
         if (empty($idpengguna)) {
             echo json_encode(array('msg' => "Session telah berakhir, Silahkan refresh halaman!"));
@@ -186,6 +188,8 @@ class Pengeluaranumum extends CI_Controller
                 'idpengguna'           => $idpengguna,
             );
 
+            
+
             //-------------------------------- >> simpan dari datatable
             $i           = 0;
             $arraydetail = array();
@@ -202,6 +206,7 @@ class Pengeluaranumum extends CI_Controller
 
                 array_push($arraydetail, $detail);
             }
+            
 
             $simpan = $this->Pengeluaranumum_model->simpan($arrayhead, $arraydetail, $idpengeluaranumum);
         } else {
@@ -255,7 +260,7 @@ class Pengeluaranumum extends CI_Controller
             'idpengeluaranumum'    => $RsData->idpengeluaranumum,
             'tglpengeluaranumum'   => $RsData->tglpengeluaranumum,
             'keterangan'           => $RsData->keterangan,
-            'totalpengeluaranumum' => format_rupiah($RsData->totalpengeluaranumum),
+            'totalpengeluaranumum' => format_dollar($RsData->totalpengeluaranumum),
             'idpengguna'           => $RsData->idpengguna,
         );
         echo (json_encode($data));

@@ -320,6 +320,11 @@ function format_decimal($jumlah, $ndecimal)
     return number_format($jumlah, $ndecimal, '.', ',');
 }
 
+function format_dollar($jumlah)
+{
+    return number_format($jumlah, 2, '.', ',');
+}
+
 function hariini($tanggal)
 {
     $hari = date("D", strtotime($tanggal));

@@ -86,7 +86,7 @@ foreach ($rs->result() as $row) {
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label for="">Jumlah Penerimaan</label>
-                                  <input type="text" name="jumlahpenerimaan" id="jumlahpenerimaan" class="form-control rupiah">
+                                  <input type="text" name="jumlahpenerimaan" id="jumlahpenerimaan" class="form-control dollar">
                                 </div>
                               </div>
                               <div class="col-md-2">
@@ -176,7 +176,7 @@ foreach ($rs->result() as $row) {
                                     // Hilangkan format number untuk menghitung sum
                                     var intVal = function ( i ) {
                                         return typeof i === 'string' ?
-                                            i.replace(/[\$,.]/g, '')*1 :
+                                            i.replace(/[\$,]/g, '')*1 :
                                             typeof i === 'number' ?
                                                 i : 0;
                                     };
@@ -200,10 +200,10 @@ foreach ($rs->result() as $row) {
                                     jlhkeseluruhan = total;
                                     // Update footer
                                     $( api.column( 4 ).footer() ).html(
-                                        'Rp. '+ numberWithCommas(total)
+                                         format_dollar(total,2)
                                     );
-                                    $('#total').val( numberWithCommas(total) );
-                                    $('#totalpenerimaanumum').val( numberWithCommas(total) );
+                                    $('#total').val( format_dollar(total) );
+                                    $('#totalpenerimaanumum').val( format_dollar(total) );
                                 },
             "columnDefs": [
             { "targets": [ 1 ], "className": 'dt-body-center', "visible": false},
@@ -371,7 +371,7 @@ foreach ($rs->result() as $row) {
                 encode      : true
             })
             .done(function(result){
-                // console.log(result);
+                console.log(result);
                 if (result.success) {
                     alert("Berhasil simpan data!");
                     window.location.href = "<?php echo (site_url('penerimaanumum')) ?>";

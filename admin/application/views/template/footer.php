@@ -105,12 +105,20 @@
                                 i : 0;
     }
 
+    function format_dollar(valueString)
+    {      
+      var amount=parseFloat(valueString).toFixed(2);
+      var formattedString= amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return formattedString;
+    }
+
     $(".tanggal").mask("00-00-0000", {placeholder:"dd-mm-yyyy"});
     $(".rupiah").mask("000,000,000,000", {reverse: true, placeholder:"000,000,000,000"});
     $('.rupiah').addClass('text-right');
     $(".berat").mask("000,000.00", {reverse: true, placeholder:"000,000.00"});
     $('.berat').addClass('text-right');
-
+    $(".dollar").mask("000,000,000.00", {reverse: true, placeholder:"000,000,000.00"});
+    $('.dollar').addClass('text-right');
 </script>
 
 

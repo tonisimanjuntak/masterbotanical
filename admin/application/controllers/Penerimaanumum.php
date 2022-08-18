@@ -67,7 +67,7 @@ class Penerimaanumum extends CI_Controller {
                 $row[] = $no;
                 $row[] = $rowdata->idpenerimaanumum . '<br>' . $rowdata->tglpenerimaanumum;
                 $row[] = $rowdata->keterangan;
-                $row[] = format_rupiah($rowdata->totalpenerimaanumum);
+                $row[] = format_dollar($rowdata->totalpenerimaanumum);
                 $row[] = $rowdata->namapengguna;
                 $row[] = '<a href="' . site_url('penerimaanumum/edit/' . $this->encrypt->encode($rowdata->idpenerimaanumum)) . '" class="btn btn-sm btn-warning btn-circle"><i class="fa fa-edit"></i></a> |
                         <a href="' . site_url('penerimaanumum/delete/' . $this->encrypt->encode($rowdata->idpenerimaanumum)) . '" class="btn btn-sm btn-danger btn-circle" id="hapus"><i class="fa fa-trash"></i></a>';
@@ -89,8 +89,8 @@ class Penerimaanumum extends CI_Controller {
         // query ini untuk item yang dimunculkan sesuai dengan kategori yang dipilih
 
         $idpenerimaanumum = $this->input->post('idpenerimaanumum');
-        $query             = "select * from v_pengeluaranumumdetail
-                        WHERE v_pengeluaranumumdetail.idpenerimaanumum='" . $idpenerimaanumum . "'";
+        $query             = "select * from v_penerimaanumumdetail
+                        WHERE v_penerimaanumumdetail.idpenerimaanumum='" . $idpenerimaanumum . "'";
 
         $RsData = $this->db->query($query);
 
@@ -105,7 +105,7 @@ class Penerimaanumum extends CI_Controller {
                 $row[]  = $rowdata->idpenerimaanumum;
                 $row[]  = $rowdata->kdakun4;
                 $row[]  = $rowdata->namaakun4;
-                $row[]  = $rowdata->jumlahpengeluaran;
+                $row[]  = format_decimal($rowdata->jumlahpenerimaan,2);
                 $row[]  = '<span class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></span>';
                 $data[] = $row;
             }
@@ -190,18 +190,20 @@ class Penerimaanumum extends CI_Controller {
             $arraydetail = array();
             foreach ($isidatatable as $item) {
                 $kdakun4           = $item[2];
-                $jumlahpengeluaran = untitik($item[4]);
+                $jumlahpenerimaan = untitik($item[4]);
                 $i++;
 
                 $detail = array(
                     'idpenerimaanumum' => $idpenerimaanumum,
                     'kdakun4'           => $kdakun4,
-                    'jumlahpengeluaran' => $jumlahpengeluaran,
+                    'jumlahpenerimaan' => $jumlahpenerimaan,
                 );
 
                 array_push($arraydetail, $detail);
             }
 
+            // echo json_encode($arraydetail);
+            // exit();
             $simpan = $this->Penerimaanumum_model->simpan($arrayhead, $arraydetail, $idpenerimaanumum);
         } else {
 
@@ -218,13 +220,13 @@ class Penerimaanumum extends CI_Controller {
             $arraydetail = array();
             foreach ($isidatatable as $item) {
                 $kdakun4           = $item[2];
-                $jumlahpengeluaran = untitik($item[4]);
+                $jumlahpenerimaan = untitik($item[4]);
                 $i++;
 
                 $detail = array(
                     'idpenerimaanumum' => $idpenerimaanumum,
                     'kdakun4'           => $kdakun4,
-                    'jumlahpengeluaran' => $jumlahpengeluaran,
+                    'jumlahpenerimaan' => $jumlahpenerimaan,
                 );
 
                 array_push($arraydetail, $detail);
