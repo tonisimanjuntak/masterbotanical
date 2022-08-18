@@ -98,6 +98,7 @@ if ($rspenjualan->num_rows()>0) {
     }
 
     $total += $rowpenjualan->subtotal;    
+    $idpenjualan_old = $rowpenjualan->idpenjualan;
   }
 }else{
     $table .= '

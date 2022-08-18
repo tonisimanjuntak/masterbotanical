@@ -71,7 +71,7 @@ $title .= '<table cellpadding="5">
           <td width="90%" style="text-align: left; font-weight: bold; font-size: 28px;">MASTER BOTANICAL</td>
         </tr>
         <tr>
-            <td width="90%" style="text-align: left; font-weight: bold; font-size: 18px;">LAPORAN PENJUALAN</td>
+            <td width="90%" style="text-align: left; font-weight: bold; font-size: 18px;">LAPORAN PENERIMAAN UMUM</td>
         </tr>
 			</tbody>
 			</table>';
@@ -109,34 +109,13 @@ $table .= '<table border="0" cellpadding="5">
                 </tr> ';
 
 
-if (!empty($statuskonfirmasi) && $statuskonfirmasi != '-') {
+if (!empty($kdakun4) && $kdakun4 != '-') {
+  $namaakun4 = $this->db->query("select * from akun4 where kdakun4='".$kdakun4."'")->row()->namaakun4;
   $table .= '
             <tr style="font-size:12px; font-weight:bold;">
-                <th width="15%">Status Konfirmasi</th>
+                <th width="15%">Nama Akun</th>
                 <th width="2%">:</th>
-                <th width="83%">'.strtoupper($statuskonfirmasi).'</th>
-              </tr>
-  ';
-}
-
-if (!empty($idproduk) && $idproduk != '-') {
-  $namaproduk = $this->db->query("select * from produk where idproduk='".$idproduk."'")->row()->namaproduk;
-  $table .= '
-            <tr style="font-size:12px; font-weight:bold;">
-                <th width="15%">Nama Produk</th>
-                <th width="2%">:</th>
-                <th width="83%">'.strtoupper($namaproduk).'</th>
-              </tr>
-  '; 
-}
-
-if (!empty($idprodukbatchnumber) && $idprodukbatchnumber != '-') {
-  $nomorbatch = $this->db->query("select * from produkbatchnumber where idprodukbatchnumber='".$idprodukbatchnumber."'")->row()->nomorbatch;
-  $table .= '
-            <tr style="font-size:12px; font-weight:bold;">
-                <th width="15%">Nomor Batch</th>
-                <th width="2%">:</th>
-                <th width="83%">'.strtoupper($nomorbatch).'</th>
+                <th width="83%">'.strtoupper($namaakun4).'</th>
               </tr>
   '; 
 }
@@ -154,42 +133,57 @@ $table .= '
           <th width="5%" style="text-align:center;" class="add-border-top add-border-bottom">NO</th>
           <th width="10%" style="text-align:center;" class="add-border-top add-border-bottom">KODE</th>
 					<th width="10%" style="text-align:center;" class="add-border-top add-border-bottom">TANGGAL</th>
-          <th width="15%" style="text-align:left;" class="add-border-top add-border-bottom">NAMA KONSUMEN</th>
-          <th width="20%" style="text-align:left;" class="add-border-top add-border-bottom">URAIAN</th>
-					<th width="10%" style="text-align:center;" class="add-border-top add-border-bottom">BATCH NUMBER</th>
-					<th width="10%" style="text-align:center;" class="add-border-top add-border-bottom">BERAT <br>(KG)</th>
-					<th width="10%" style="text-align:right;" class="add-border-top add-border-bottom">HARGA SATUAN ($)</th>
-					<th width="10%" style="text-align:right;" class="add-border-top add-border-bottom">JUMLAH ($)</th>
+          <th width="55%" style="text-align:left;" class="add-border-top add-border-bottom">URAIAN</th>
+					<th width="10%" style="text-align:center;" class="add-border-top add-border-bottom">JUMLAH</th>
+					<th width="10%" style="text-align:center;" class="add-border-top add-border-bottom">SUBTOTAL</th>
 				</tr>
 			</thead>
       <tbody>';
 
 $no = 1;
 $total = 0;
-$idpenjualan_old = '';
+$idpenerimaanumum_old = '';
+$subtotal = 0;
 
-if ($rspenjualan->num_rows()>0) {
-  foreach ($rspenjualan->result() as $rowpenjualan) {
+if ($rspenerimaanumum->num_rows()>0) {
+  foreach ($rspenerimaanumum->result() as $rowpenerimaanumum) {
     
-    if ($rowpenjualan->isfrontend) {
-      $keterangan = 'Penjualan dari web';
-    }else{
-      $keterangan = 'Penjualan langsung';
-    }
-
-    if ($idpenjualan_old != $rowpenjualan->idpenjualan) {
+    if ($idpenerimaanumum_old != $rowpenerimaanumum->idpenerimaanumum) {
       
+      if ($subtotal>0) {
+          
+          $table .= '
+            <tr style="font-size:12px; font-weight: bold;">
+              <td width="5%" style="text-align:center;"></td>
+              <td width="10%" style="text-align:center;"></td>
+              <td width="10%" style="text-align:center;"></td>
+              <td width="55%" style="text-align:right;">Subtotal</td>
+              <td width="10%" style="text-align:right;"></td>
+              <td width="10%" style="text-align:right;">'.format_dollar($subtotal).'</td>
+            </tr>
+          ';
+          $subtotal =0;
+      }
+
       $table .= '
             <tr style="font-size:12px;">
               <td width="5%" style="text-align:center;" class="add-border-top">'.$no++.'</td>
-              <td width="10%" style="text-align:center;" class="add-border-top">'.$rowpenjualan->idpenjualan.'</td>
-              <td width="10%" style="text-align:center;" class="add-border-top">'.tglindonesia($rowpenjualan->tglpenjualan).'</td>
-              <td width="15%" style="text-align:left;" class="add-border-top">'.$rowpenjualan->namakonsumen.'</td>
-              <td width="20%" style="text-align:left;" class="add-border-top">'.$rowpenjualan->namaproduk.'</td>
-              <td width="10%" style="text-align:center;" class="add-border-top">'.$rowpenjualan->nomorbatch.'</td>
-              <td width="10%" style="text-align:center;" class="add-border-top">'.format_decimal($rowpenjualan->beratproduk,2).'</td>
-              <td width="10%" style="text-align:right;" class="add-border-top">'.format_decimal($rowpenjualan->hargaproduk,2).'</td>
-              <td width="10%" style="text-align:right;" class="add-border-top">'.format_decimal($rowpenjualan->subtotal,2).'</td>
+              <td width="10%" style="text-align:center;" class="add-border-top">'.$rowpenerimaanumum->idpenerimaanumum.'</td>
+              <td width="10%" style="text-align:center;" class="add-border-top">'.tglindonesia($rowpenerimaanumum->tglpenerimaanumum).'</td>
+              <td width="55%" style="text-align:left;" class="add-border-top">'.$rowpenerimaanumum->keterangan.'</td>
+              <td width="10%" style="text-align:right;" class="add-border-top"></td>
+              <td width="10%" style="text-align:right;" class="add-border-top"></td>
+            </tr>
+      ';
+
+      $table .= '
+            <tr style="font-size:12px;">
+              <td width="5%" style="text-align:center;"></td>
+              <td width="10%" style="text-align:center;"></td>
+              <td width="10%" style="text-align:center;"></td>
+              <td width="55%" style="text-align:left;">> '.$rowpenerimaanumum->kdakun4.' - '.$rowpenerimaanumum->namaakun4.'</td>
+              <td width="10%" style="text-align:right;">'.format_dollar($rowpenerimaanumum->jumlahpenerimaan).'</td>
+              <td width="10%" style="text-align:right;"></td>
             </tr>
       ';
 
@@ -200,19 +194,17 @@ if ($rspenjualan->num_rows()>0) {
               <td width="5%" style="text-align:center;"></td>
               <td width="10%" style="text-align:center;"></td>
               <td width="10%" style="text-align:center;"></td>
-              <td width="15%" style="text-align:left;"></td>
-              <td width="20%" style="text-align:left;">'.$rowpenjualan->namaproduk.'</td>
-              <td width="10%" style="text-align:center;">'.$rowpenjualan->nomorbatch.'</td>
-              <td width="10%" style="text-align:center;">'.format_decimal($rowpenjualan->beratproduk,2).'</td>
-              <td width="10%" style="text-align:right;">'.format_decimal($rowpenjualan->hargaproduk,2).'</td>
-              <td width="10%" style="text-align:right;">'.format_decimal($rowpenjualan->subtotal,2).'</td>
+              <td width="55%" style="text-align:left;">> '.$rowpenerimaanumum->kdakun4.' - '.$rowpenerimaanumum->namaakun4.'</td>
+              <td width="10%" style="text-align:right;">'.format_dollar($rowpenerimaanumum->jumlahpenerimaan).'</td>
+              <td width="10%" style="text-align:right;"></td>
             </tr>
       ';
 
     }
 
-    $total += $rowpenjualan->subtotal;    
-    $idpenjualan_old = $rowpenjualan->idpenjualan;
+    $subtotal += $rowpenerimaanumum->jumlahpenerimaan;
+    $total += $rowpenerimaanumum->jumlahpenerimaan;    
+    $idpenerimaanumum_old = $rowpenerimaanumum->idpenerimaanumum;
   }
 }else{
     $table .= '
@@ -223,10 +215,25 @@ if ($rspenjualan->num_rows()>0) {
 }
 
 
+if ($subtotal>0) {
+          
+    $table .= '
+      <tr style="font-size:12px; font-weight: bold;">
+        <td width="5%" style="text-align:center;"></td>
+        <td width="10%" style="text-align:center;"></td>
+        <td width="10%" style="text-align:center;"></td>
+        <td width="55%" style="text-align:right;">Subtotal</td>
+        <td width="10%" style="text-align:right;"></td>
+        <td width="10%" style="text-align:right;">'.format_dollar($subtotal).'</td>
+      </tr>
+    ';
+    $subtotal =0;
+}
+
 if ($no>1) {
   $table .= '
             <tr style="font-size:12px; font-weight: bold;">
-              <td width="90%" style="text-align:right;" class="add-border-top add-border-bottom" colspan="8">T O T A L</td>
+              <td width="90%" style="text-align:right;" class="add-border-top add-border-bottom" colspan="5">T O T A L</td>
               <td width="10%" style="text-align:right;" class="add-border-top add-border-bottom">'.format_decimal($total,2).'</td>
             </tr>
       ';
