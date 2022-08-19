@@ -85,6 +85,10 @@ class Penjualan_model extends CI_Model {
     {
         $this->db->trans_begin();
 
+        $idpenjualankonfirmasi = $this->db->query("select idpenjualankonfirmasi from penjualankonfirmasi where idpenjualan='".$idpenjualan."'")->row()->idpenjualankonfirmasi;
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpenjualankonfirmasi . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpenjualankonfirmasi . '"');
+
         $this->db->query('delete from penjualandetail where idpenjualan="'.$idpenjualan.'"');
         $this->db->query('delete from penjualankonfirmasi where idpenjualan="'.$idpenjualan.'"');
         $this->db->where('idpenjualan', $idpenjualan);      
@@ -104,10 +108,57 @@ class Penjualan_model extends CI_Model {
     {       
         $this->db->trans_begin();
 
+        $this->db->query('delete from penjualandetail where idpenjualan="'.$idpenjualan.'"');
         $this->db->insert('penjualan', $arrayhead);
         $this->db->insert('penjualankonfirmasi', $datakonfirmasi);
-        $this->db->query('delete from penjualandetail where idpenjualan="'.$idpenjualan.'"');
         $this->db->insert_batch('penjualandetail', $arraydetail);
+
+
+        /*
+            langsung jurnal karena sudah otomatis konfirmasi
+        */
+        $datajurnal = array(
+                        'idjurnal' => $datakonfirmasi['idpenjualankonfirmasi'],
+                        'tgljurnal' => $datakonfirmasi['tglpenjualankonfirmasi'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpenjualan'], 
+                        'jenistransaksi' => 'Konfirmasi Penjualan'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+
+        // jurnal detail
+        switch ($arrayhead['metodepembayaran']) {
+            case 'Transfer':                
+                $kdakunkaspenjualan = $this->db->query("select kdakunkaspenjualantransfer as kdakunkaspenjualan from pengaturan")->row()->kdakunkaspenjualan;
+                break;
+            case 'Virtual Account':                
+                $kdakunkaspenjualan = $this->db->query("select kdakunkaspenjualanvirtualaccount as kdakunkaspenjualan from pengaturan")->row()->kdakunkaspenjualan;
+                break;            
+            default:
+                $kdakunkaspenjualan = $this->db->query("select kdakunkaspenjualantunai as kdakunkaspenjualan from pengaturan")->row()->kdakunkaspenjualan;
+                break;
+        }
+
+        $datadebet = array();        
+        $datakredit = array();        
+        $kdakunpenjualan = $this->db->query("select kdakunpenjualan from pengaturan")->row()->kdakunpenjualan;
+        array_push($datadebet, array(
+                    'idjurnal' => $datakonfirmasi['idpenjualankonfirmasi'], 
+                    'kdakun4' => $kdakunkaspenjualan, 
+                    'debet' => $arrayhead['totalpenjualan'], 
+                    'kredit' => 0, 
+                    'nourut' => 1
+                 ));
+        array_push($datakredit, array(
+                'idjurnal' => $datakonfirmasi['idpenjualankonfirmasi'], 
+                'kdakun4' => $kdakunpenjualan, 
+                'debet' => 0, 
+                'kredit' => $arrayhead['totalpenjualan'], 
+                'nourut' => 2
+             ));
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
 
         if ($this->db->trans_status() === FALSE){
                 $this->db->trans_rollback();

@@ -87,6 +87,9 @@ class Pengeluaranumum_model extends CI_Model
     {
         $this->db->trans_begin();
 
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpengeluaranumum . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpengeluaranumum . '"');
+
         $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
         $this->db->where('idpengeluaranumum', $idpengeluaranumum);
         $this->db->delete('pengeluaranumum');
@@ -108,6 +111,47 @@ class Pengeluaranumum_model extends CI_Model
         $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
         $this->db->insert_batch('pengeluaranumumdetail', $arraydetail);
 
+
+        //jurnal
+        $datajurnal = array(
+                        'idjurnal' => $arrayhead['idpengeluaranumum'],
+                        'tgljurnal' => $arrayhead['tglpengeluaranumum'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpengeluaranumum'], 
+                        'jenistransaksi' => 'Pengeluaran Umum'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+        // jurnal detail
+        $kdakunkaspengeluaranumum = $this->db->query("select kdakunkaspengeluaranumum from pengaturan")->row()->kdakunkaspengeluaranumum;
+        $jumlahpasangan = 0;
+        $datadebet = array();        
+        $datakredit = array();        
+        $nourut = 1;
+        foreach ($arraydetail as $row) {            
+            array_push($datadebet, array(
+                    'idjurnal' => $row['idpengeluaranumum'], 
+                    'kdakun4' => $row['kdakun4'], 
+                    'debet' => $row['jumlahpengeluaran'], 
+                    'kredit' => 0, 
+                    'nourut' => $nourut
+                 ));
+            $nourut++;
+            $jumlahpasangan += $row['jumlahpengeluaran'];
+        }
+
+        array_push($datakredit, array(
+                    'idjurnal' => $arrayhead['idpengeluaranumum'], 
+                    'kdakun4' => $kdakunkaspengeluaranumum, 
+                    'debet' => 0, 
+                    'kredit' => $jumlahpasangan, 
+                    'nourut' => $nourut
+                 ));
+
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
+
+
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
             return false;
@@ -120,11 +164,53 @@ class Pengeluaranumum_model extends CI_Model
     public function update($arrayhead, $arraydetail, $idpengeluaranumum)
     {
         $this->db->trans_begin();
+
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpengeluaranumum . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpengeluaranumum . '"');
+        $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
+
+
         $this->db->where('idpengeluaranumum', $idpengeluaranumum);
         $this->db->update('pengeluaranumum', $arrayhead);
-
-        $this->db->query('delete from pengeluaranumumdetail where idpengeluaranumum="' . $idpengeluaranumum . '"');
         $this->db->insert_batch('pengeluaranumumdetail', $arraydetail);
+
+        //jurnal
+        $datajurnal = array(
+                        'idjurnal' => $arrayhead['idpengeluaranumum'],
+                        'tgljurnal' => $arrayhead['tglpengeluaranumum'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpengeluaranumum'], 
+                        'jenistransaksi' => 'Pengeluaran Umum'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+        // jurnal detail
+        $kdakunkaspengeluaranumum = $this->db->query("select kdakunkaspengeluaranumum from pengaturan")->row()->kdakunkaspengeluaranumum;
+        $jumlahpasangan = 0;
+        $datadebet = array();        
+        $datakredit = array();        
+        $nourut = 1;
+        foreach ($arraydetail as $row) {            
+            array_push($datadebet, array(
+                    'idjurnal' => $row['idpengeluaranumum'], 
+                    'kdakun4' => $row['kdakun4'], 
+                    'debet' => $row['jumlahpengeluaran'], 
+                    'kredit' => 0, 
+                    'nourut' => $nourut
+                 ));
+            $nourut++;
+            $jumlahpasangan += $row['jumlahpengeluaran'];
+        }
+
+        array_push($datakredit, array(
+                    'idjurnal' => $arrayhead['idpengeluaranumum'], 
+                    'kdakun4' => $kdakunkaspengeluaranumum, 
+                    'debet' => 0, 
+                    'kredit' => $jumlahpasangan, 
+                    'nourut' => $nourut
+                 ));
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
