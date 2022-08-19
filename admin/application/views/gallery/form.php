@@ -69,61 +69,12 @@ if (!empty($pesan)) {
                           </div>
 
                           <div class="col-12">
-                                <button class="btn btn-primary float-right" type="submit"><i class="fa fa-save"></i> Simpan</button>                            
+                                <button class="btn btn-primary float-right" type="submit"><i class="fa fa-save"></i> Simpan</button>            
+                                <a href="<?php echo(site_url('gallery')) ?>" class="btn btn-default float-right mr-1 ml-1"><i class="fa fa-chevron-circle-left"></i> Kembali</a>                
                           </div>
 
                         </div>
                       </form>
-
-
-                          <div class="col-md-12 mt-5">
-
-                            <div class="table-responsive">
-                              <table id="table" class="display" style="width: 100%;">
-                                  <thead>
-                                      <tr>
-                                          <th style="width: 5%; text-align: center;">No</th>
-                                          <th style="text-align: center;">Gambar</th>
-                                          <th style="width: 70%; text-align: left;">Judul Gambar</th>
-                                          <th style="text-align: center;">Aksi</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                    <?php
-$rsgallery = $this->db->query("select * from gallery order by idgallery");
-if ($rsgallery->num_rows() > 0) {
-    $no = 1;
-    foreach ($rsgallery->result() as $row) {
-        $filegallery = base_url('../uploads/gallery/' . $row->filegallery);
-
-        echo '
-                                            <tr>
-                                                <td style="width: 5%; text-align: center;">' . $no++ . '</td>
-                                                <td style="text-align: center"><img src="' . $filegallery . '" alt="" style="width:80%;"></td>
-                                                <td style="text-align: left;">' . $row->judulgambar . '</td>
-                                                <td style="text-align: center;">
-                                                  <a href="' . site_url('gallery/delete/' . $this->encrypt->encode($row->idgallery)) . '" class="btn btn-sm btn-danger btn-circle" id="hapus"><i class="fa fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-
-                                          ';
-    }
-}else{
-    echo '
-                                            <tr>
-                                                <td style="width: 5%; text-align: center;" colspan="4">Belum ada gallery</td>                                                
-                                            </tr>
-
-                                          ';
-}
-?>
-                                  </tbody>
-                              </table>
-                            </div>
-
-                            <input type="hidden" id="total">
-                          </div>
-
 
                   </div>
 

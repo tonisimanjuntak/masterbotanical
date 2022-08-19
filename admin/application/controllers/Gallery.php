@@ -24,6 +24,13 @@ class Gallery extends CI_Controller {
 
     public function index()
     {
+        $data['rsgallery'] = $this->db->query("select * from gallery order by idgallery");
+        $data['menu'] = 'gallery';
+        $this->load->view('gallery/listdata', $data);
+    }
+
+    public function tambah()
+    {
         $data['menu'] = 'gallery';
         $this->load->view('gallery/form', $data);
     }
@@ -127,6 +134,18 @@ class Gallery extends CI_Controller {
         redirect('gallery');
     }
 
+    public function updatestatus()
+    {
+        $idgallery = $this->input->post('idgallery');
+        $tampildifront = $this->input->post('tampildifront');
+
+        $data = array(
+                        'idgallery' => $idgallery, 
+                        'tampildifront' => $tampildifront, 
+                    );
+        $this->Gallery_model->update($data, $idgallery);
+        echo json_encode(array('success' => true ));
+    }
 
     public function upload_foto($file, $nama)
     {

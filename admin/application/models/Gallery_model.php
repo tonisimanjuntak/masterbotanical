@@ -14,6 +14,12 @@ class Gallery_model extends CI_Model {
         return $this->db->insert('gallery', $data);
     }
 
+    public function update($data, $idgallery)
+    {
+        $this->db->where('idgallery', $idgallery);
+        return $this->db->update('gallery', $data);
+    }
+
     public function hapus($idgallery)
     {
         $this->db->where('idgallery', $idgallery);

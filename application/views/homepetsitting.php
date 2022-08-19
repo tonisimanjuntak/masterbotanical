@@ -405,7 +405,7 @@ if ($rsspesialoffer->num_rows() > 0) {
         <div class="row">
 
           <?php  
-            $rsgallery = $this->db->query("select * from gallery order by idgallery");
+            $rsgallery = $this->db->query("select * from gallery where tampildifront='Ya' order by idgallery");
             if ($rsgallery->num_rows()>0) {
               foreach ($rsgallery->result() as $rowgallery) {
                 echo '

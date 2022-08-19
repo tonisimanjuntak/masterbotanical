@@ -102,7 +102,7 @@ if (!empty($pesan)) {
 
 
             CKEDITOR.replace('deskripsi' ,{
-                filebrowserImageBrowseUrl : '<?php echo base_url('../uploads/galery'); ?>',
+                filebrowserImageBrowseUrl : '<?php echo base_url('../uploads/gallery'); ?>',
                 height : ['400px'],
               });
             CKEDITOR.instances.deskripsi.setData( result.deskripsi );
