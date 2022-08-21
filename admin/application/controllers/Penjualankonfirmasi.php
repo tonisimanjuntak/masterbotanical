@@ -103,10 +103,11 @@ class Penjualankonfirmasi extends CI_Controller {
                 $row[] = format_rupiah($rowdata->totalpenjualan);
                 switch ($rowdata->statuskonfirmasi) {
                     case 'Dikonfirmasi':
-                        $statuskonfirmasi = '<span class="badge badge-success">'.$rowdata->statuskonfirmasi.'</span>';
+                        $statuskonfirmasi = '<span class="badge badge-success">'.$rowdata->statuskonfirmasi.'</span><br><span class="text-success">'.tglindonesia($rowdata->tglpenjualankonfirmasi).'</span>';
+
                         break;
                     case 'Ditolak':
-                        $statuskonfirmasi = '<span class="badge badge-danger">'.$rowdata->statuskonfirmasi.'</span>';
+                        $statuskonfirmasi = '<span class="badge badge-danger">'.$rowdata->statuskonfirmasi.'</span><br><span class="text-danger">'.tglindonesia($rowdata->tglpenjualankonfirmasi).'</span>';
                         break;
                     
                     default:
