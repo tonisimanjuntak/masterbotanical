@@ -87,6 +87,9 @@ class Pengadaanbahan_model extends CI_Model
     {
         $this->db->trans_begin();
 
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpengadaanbahan . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpengadaanbahan . '"');
+
         $this->db->query('delete from pengadaanbahandetail where idpengadaanbahan="' . $idpengadaanbahan . '"');
         $this->db->where('idpengadaanbahan', $idpengadaanbahan);
         $this->db->delete('pengadaanbahan');
@@ -103,10 +106,47 @@ class Pengadaanbahan_model extends CI_Model
     public function simpan($arrayhead, $arraydetail, $idpengadaanbahan)
     {
         $this->db->trans_begin();
-
-        $this->db->insert('pengadaanbahan', $arrayhead);
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpengadaanbahan . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpengadaanbahan . '"');
         $this->db->query('delete from pengadaanbahandetail where idpengadaanbahan="' . $idpengadaanbahan . '"');
+
+        
+        $this->db->insert('pengadaanbahan', $arrayhead);
         $this->db->insert_batch('pengadaanbahandetail', $arraydetail);
+
+        //jurnal
+        $datajurnal = array(
+                        'idjurnal' => $arrayhead['idpengadaanbahan'],
+                        'tgljurnal' => $arrayhead['tglpengadaanbahan'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpengadaan'], 
+                        'jenistransaksi' => 'Pengadaan Bahan'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+        // jurnal detail
+        $kdakunkaspengadaanbahan = $this->db->query("select kdakunkaspengadaanbahan from pengaturan")->row()->kdakunkaspengadaanbahan;
+        $kdakunpengadaanbahan = $this->db->query("select kdakunpengadaanbahan from pengaturan")->row()->kdakunpengadaanbahan;
+        $datadebet = array();        
+        $datakredit = array();        
+        array_push($datadebet, array(
+                'idjurnal' => $arrayhead['idpengadaanbahan'], 
+                'kdakun4' => $kdakunpengadaanbahan, 
+                'debet' => $arrayhead['totalpengadaan'],  
+                'kredit' => 0, 
+                'nourut' => 1
+             ));
+
+        array_push($datakredit, array(
+                    'idjurnal' => $arrayhead['idpengadaanbahan'], 
+                    'kdakun4' => $kdakunkaspengadaanbahan, 
+                    'debet' => 0, 
+                    'kredit' => $arrayhead['totalpengadaan'], 
+                    'nourut' => 2
+                 ));
+
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
@@ -120,11 +160,49 @@ class Pengadaanbahan_model extends CI_Model
     public function update($arrayhead, $arraydetail, $idpengadaanbahan)
     {
         $this->db->trans_begin();
+
+        $this->db->query('delete from jurnaldetail where idjurnal="' . $idpengadaanbahan . '"');
+        $this->db->query('delete from jurnal where idjurnal="' . $idpengadaanbahan . '"');
+        $this->db->query('delete from pengadaanbahandetail where idpengadaanbahan="' . $idpengadaanbahan . '"');
+
         $this->db->where('idpengadaanbahan', $idpengadaanbahan);
         $this->db->update('pengadaanbahan', $arrayhead);
-
-        $this->db->query('delete from pengadaanbahandetail where idpengadaanbahan="' . $idpengadaanbahan . '"');
         $this->db->insert_batch('pengadaanbahandetail', $arraydetail);
+
+
+        //jurnal
+        $datajurnal = array(
+                        'idjurnal' => $arrayhead['idpengadaanbahan'],
+                        'tgljurnal' => $arrayhead['tglpengadaanbahan'], 
+                        'deskripsi' => $arrayhead['keterangan'], 
+                        'jumlah' => $arrayhead['totalpengadaan'], 
+                        'jenistransaksi' => 'Pengadaan Bahan'
+                    );
+        $this->db->insert('jurnal', $datajurnal);
+
+        // jurnal detail
+        $kdakunkaspengadaanbahan = $this->db->query("select kdakunkaspengadaanbahan from pengaturan")->row()->kdakunkaspengadaanbahan;
+        $kdakunpengadaanbahan = $this->db->query("select kdakunpengadaanbahan from pengaturan")->row()->kdakunpengadaanbahan;
+        $datadebet = array();        
+        $datakredit = array();        
+        array_push($datadebet, array(
+                'idjurnal' => $arrayhead['idpengadaanbahan'], 
+                'kdakun4' => $kdakunpengadaanbahan, 
+                'debet' => $arrayhead['totalpengadaan'],  
+                'kredit' => 0, 
+                'nourut' => 1
+             ));
+
+        array_push($datakredit, array(
+                    'idjurnal' => $arrayhead['idpengadaanbahan'], 
+                    'kdakun4' => $kdakunkaspengadaanbahan, 
+                    'debet' => 0, 
+                    'kredit' => $arrayhead['totalpengadaan'], 
+                    'nourut' => 2
+                 ));
+
+        $this->db->insert_batch('jurnaldetail', $datadebet);
+        $this->db->insert_batch('jurnaldetail', $datakredit);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();

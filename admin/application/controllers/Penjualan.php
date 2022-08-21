@@ -374,7 +374,19 @@ class Penjualan extends CI_Controller {
 
                 array_push($arraydetail, $detail);              
             }
-            $simpan  = $this->Penjualan_model->update($arrayhead, $arraydetail, $idpenjualan);
+
+            //-------------------------------- >> konfirmasi penjualan
+            $idpenjualankonfirmasi = $this->db->query("select idpenjualankonfirmasi from penjualankonfirmasi where idpenjualan='".$idpenjualan."'")->row()->idpenjualankonfirmasi;
+
+            $datakonfirmasi = array(
+                                    'idpenjualankonfirmasi' => $idpenjualankonfirmasi, 
+                                    'idpenjualan' => $idpenjualan, 
+                                    'tglpenjualankonfirmasi' => $tglpenjualan, 
+                                    'idpengguna' => $idpengguna, 
+                                    'tglupdate' => $tglinsert, 
+                                );
+
+            $simpan  = $this->Penjualan_model->update($arrayhead, $arraydetail, $datakonfirmasi, $idpenjualan, $idpenjualankonfirmasi);
         }
 
 

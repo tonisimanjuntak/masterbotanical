@@ -272,6 +272,7 @@ class Pengadaanbahan extends CI_Controller
         } else {
 
             $arrayhead = array(
+                'idpengadaanbahan'  => $idpengadaanbahan,
                 'tglpengadaanbahan' => $tglpengadaanbahan,
                 'keterangan'        => $keterangan,
                 'totalpengadaan'    => $totalpengadaan,
