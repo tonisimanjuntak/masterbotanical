@@ -104,11 +104,18 @@ if ($rsbestseller->num_rows() > 0) {
         } else {
             $gambarproduk = base_url('images/nofoto.png');
         }
+
+        $img_discount = '';
+        if ($row->is_discount==1) {
+          $img_discount = '<img src="'.base_url('images/discount.png').'" alt="" style="width: 45%;">';
+        }
+
         echo '
                                           <div class="col-lg-4">
                                             <div class="product__discount__item">
                                                 <div class="product__discount__item__pic set-bg"
                                                     data-setbg="' . $gambarproduk . '">
+                                                    '.$img_discount.'
                                                     <ul class="product__item__pic__hover">
                                                         <li><a href="' . site_url('shop/detail/' . $this->encrypt->encode($row->idproduk)) . '"><i class="fa fa-heart"></i></a></li>
                                                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
@@ -152,11 +159,15 @@ if ($rsspesialoffer->num_rows() > 0) {
         } else {
             $gambarproduk = base_url('images/nofoto.png');
         }
+
+        $img_discount = '<img src="'.base_url('images/discount.png').'" alt="" style="width: 45%;">';
+
         echo '
                                           <div class="col-lg-4">
                                             <div class="product__discount__item">
                                                 <div class="product__discount__item__pic set-bg"
                                                     data-setbg="' . $gambarproduk . '">
+                                                    '.$img_discount.'
                                                     <ul class="product__item__pic__hover">
                                                         <li><a href="' . site_url('shop/detail/' . $this->encrypt->encode($rowspesialoffer->idproduk)) . '"><i class="fa fa-heart"></i></a></li>
                                                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
@@ -223,10 +234,16 @@ if ($data->num_rows() > 0) {
             $gambarproduk = base_url('images/nofoto.png');
         }
 
+        $img_discount = '';
+        if ($row->is_discount==1) {
+          $img_discount = '<img src="'.base_url('images/discount.png').'" alt="" style="width: 45%;">';
+        }
+
         echo '
                                   <div class="col-lg-4 col-md-6 col-sm-6">
                                       <div class="product__item">
                                           <div class="product__item__pic set-bg" data-setbg="' . $gambarproduk . '">
+                                          '.$img_discount.'
                                               <ul class="product__item__pic__hover">
                                                   <li><a href="' . site_url('shop/detail/' . $this->encrypt->encode($row->idproduk)) . '"><i class="fa fa-heart"></i></a></li>
                                                   <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>

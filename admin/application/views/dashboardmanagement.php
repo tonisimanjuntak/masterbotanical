@@ -305,6 +305,7 @@ $(function () {
         labels: resulttahunini.bulanpenjualan,
         datasets: [{
           type: 'line',
+          label: 'total penjualan',
           data: resulttahunini.totalpenjualan,
           backgroundColor: 'transparent',
           borderColor: '#007bff',
@@ -316,6 +317,7 @@ $(function () {
         },
         {
           type: 'line',
+          label: 'average',
           data: resulttahunini.totalaverage,
           backgroundColor: 'tansparent',
           borderColor: '#ced4da',
@@ -337,7 +339,7 @@ $(function () {
           intersect: intersect
         },
         legend: {
-          display: false
+          display: true
         },
         scales: {
           yAxes: [{

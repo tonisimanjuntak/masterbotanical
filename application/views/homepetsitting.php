@@ -286,10 +286,16 @@ if ($rsbestseller->num_rows() > 0) {
             $gambarproduk = base_url('images/nofoto.png');
         }
 
+        $img_discount = '';
+        if ($row->is_discount==1) {
+          $img_discount = '<img src="'.base_url('images/discount.png').'" alt="" style="width: 25%;">';
+        }
         $output .= '
                     <div class="col-md-4 ftco-animate">
                         <div class="block-7">
-                          <div class="img" style="background-image: url(' . $gambarproduk . ');"></div>
+                          <div class="img" style="background-image: url(' . $gambarproduk . ');">
+                            '.$img_discount.'
+                          </div>
                           <div class="text-center p-4">
                             <span class="excerpt d-block">' . $row->namaproduk . '</span>
                             <span class="price"><sup>$</sup> <span class="number">' . $row->lowestprice . '</span> <sub>/mos</sub></span>
@@ -354,7 +360,9 @@ if ($rsspesialoffer->num_rows() > 0) {
         $output .= '
                     <div class="col-md-4 ftco-animate">
                         <div class="block-7">
-                          <div class="img" style="background-image: url(' . $gambarproduk . ');"></div>
+                          <div class="img" style="background-image: url(' . $gambarproduk . ');">
+                            <img src="'.base_url('images/discount.png').'" alt="" style="width: 25%;">
+                          </div>
                           <div class="text-center p-4">
                             <span class="excerpt d-block">' . $row->namaproduk . '</span>
                             <span class="price"><sup>$</sup> <span class="number">' . $row->lowestprice . '</span> <sub>/mos</sub></span>
