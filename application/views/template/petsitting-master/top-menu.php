@@ -1,6 +1,6 @@
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	    	<a class="navbar-brand" href="<?php echo site_url() ?>"><img src="<?php echo site_url('images/logo.jpg') ?>" alt="" style="max-height: 60px;"></span> MASTER BOTANICAL</a>
+	    	<a class="navbar-brand" href="<?php echo site_url() ?>"><img src="<?php echo $this->session->userdata('logo'); ?>" alt="" style="max-height: 60px;"></span> <?php echo $this->session->userdata('namacompany'); ?></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="fa fa-bars"></span> Menu
 	      </button>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Myaccount extends CI_Controller {
+class Myaccount extends MY_Controller {
 
 	public function __construct()
     {
@@ -9,6 +9,7 @@ class Myaccount extends CI_Controller {
         $this->is_login();
         $this->load->model('Myaccount_model');
         $this->load->library('image_lib');
+        $this->loadInfoCompany();
         //Do your magic here
     }
 

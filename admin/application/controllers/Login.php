@@ -48,6 +48,11 @@ class Login extends CI_Controller {
 
                 $rowcompany = $this->db->query("select * from company limit 1")->row();
 
+                if (!empty($rowcompany->logo)) {
+                    $logo = base_url('../uploads/company/'.$rowcompany->logo);
+                }else{
+                    $logo = base_url('../images/logo.jpg');                    
+                }
                 $data = array(
                     'idpengguna' => $result->idpengguna,
                     'namapengguna' => $result->namapengguna,
@@ -57,6 +62,8 @@ class Login extends CI_Controller {
                     'jk' => $result->jk,
                     'email' => $result->email,
                     'matauang' => $rowcompany->matauang,
+                    'namacompany' => $rowcompany->namacompany,
+                    'logo' => $logo,
                 );
                                 
                 $this->session->set_userdata( $data );  

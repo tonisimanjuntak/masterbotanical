@@ -2,9 +2,9 @@
   <aside class="main-sidebar sidebar-dark-warning elevation-4">
     <!-- Brand Logo -->
     <a href="<?php echo (base_url()) ?>" class="brand-link navbar-navy text-light text-sm">
-      <img src="<?php echo (base_url('../images/logo-text.jpg')) ?>" alt="AdminLTE Logo" class="brand-image elevation-3"
+      <img src="<?php echo $this->session->userdata('logo'); ?>" alt="AdminLTE Logo" class="brand-image elevation-3"
            style="opacity: .8">
-      <!-- <span class="brand-text font-weight-light">BOTANICAL</span> -->
+      <span class="brand-text font-weight-light"><?php echo $this->session->userdata('namacompany'); ?></span>
     </a>
 
     <!-- Sidebar -->
@@ -47,7 +47,7 @@
 
 
 <?php
-$menudropdown = array("slider", "pages", "tabinfo", "whychooseus", "faq", "happyclient", "bestseller", "sosialmedia", "news", "video", "gallery", "consultation");
+$menudropdown = array("slider", "pages", "tabinfo", "whychooseus", "faq", "happyclient", "bestseller", "sosialmedia", "news", "video", "gallery", "consultation", "company");
 if (in_array($menu, $menudropdown)) {
     $dropdownselected = true;
 } else {
@@ -154,6 +154,12 @@ if (in_array($menu, $menudropdown)) {
                     </ul>
                   </li>
 
+                  <li class="nav-item">
+                    <a href="<?php echo (site_url("company")) ?>" class="nav-link <?php echo ($menu == 'company') ? 'active' : '' ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Informasi Usaha</p>
+                    </a>
+                  </li>
 
                   <li class="nav-item">
                     <a href="<?php echo (site_url("pages")) ?>" class="nav-link <?php echo ($menu == 'pages') ? 'active' : '' ?>">

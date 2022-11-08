@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Shop extends CI_Controller
+class Shop extends MY_Controller
 {
 
     public function __construct()
@@ -10,6 +10,7 @@ class Shop extends CI_Controller
         $this->cart->product_name_rules = "\+\.\:\-_ a-z0-9\pL";
         $this->load->library('pagination');
         $this->load->model('Shop_model');
+        $this->loadInfoCompany();
         //Do your magic here
     }
 

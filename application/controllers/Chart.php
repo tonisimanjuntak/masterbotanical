@@ -1,13 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Chart extends CI_Controller
+class Chart extends MY_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Chart_model');
+        $this->loadInfoCompany();
     }
 
     public function is_login()

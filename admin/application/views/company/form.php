@@ -81,54 +81,19 @@
                     <div class="col-md-8">
                       <div class="card">
                         <div class="card-body">
-                            
-                            <input type="hidden" name="namacompany" id="namacompany" class="form-control" placeholder="nama usaha" value="<?php echo $rowcompany->namacompany ?>">
                                                   
+                            <div class="form-group row required">
+                              <label for="" class="col-md-3 col-form-label">Nama Usaha</label>
+                              <div class="col-md-9">
+                                <input type="text" name="namacompany" id="namacompany" class="form-control" placeholder="Nama usaha" value="<?php echo $rowcompany->namacompany ?>">
+                              </div>
+                            </div>
                             <div class="form-group row required">
                               <label for="" class="col-md-3 col-form-label">Alamat Usaha</label>
                               <div class="col-md-9">
                                 <input type="text" name="alamatcompany" id="alamatcompany" class="form-control" placeholder="alamat usaha" value="<?php echo $rowcompany->alamatcompany ?>">
                               </div>
                             </div>                      
-                            <div class="form-group row required">
-                              <label for="" class="col-md-3 col-form-label">Nomor Telp.</label>
-                              <div class="col-md-9">
-                                <input type="text" name="notelp" id="notelp" class="form-control" placeholder="+6281300000000" value="<?php echo $rowcompany->notelp ?>">
-                              </div>
-                            </div>                      
-                            <div class="form-group row required">
-                              <label for="" class="col-md-3 col-form-label">Nomor Fax</label>
-                              <div class="col-md-9">
-                                <input type="text" name="nofax" id="nofax" class="form-control" placeholder="+6265621000000" value="<?php echo $rowcompany->nofax ?>">
-                              </div>
-                            </div>                      
-
-
-                            <h5 class="mt-5 mb-3">Sosial Media</h5><hr>
-                            <div class="form-group row required">
-                              <label for="" class="col-md-3 col-form-label">Url Facebook</label>
-                              <div class="col-md-9">
-                                <input type="text" name="facebookcompany" id="facebookcompany" class="form-control" placeholder="https://facebook.com" value="<?php echo($rowcompany->facebookcompany) ?>">
-                              </div>
-                            </div>                      
-                            <div class="form-group row required">
-                              <label for="" class="col-md-3 col-form-label">Url Tweeter</label>
-                              <div class="col-md-9">
-                                <input type="text" name="tweetercompany" id="tweetercompany" class="form-control" placeholder="https://tweeter.com" value="<?php echo $rowcompany->tweetercompany ?>">
-                              </div>
-                            </div>                      
-                            <div class="form-group row required">
-                              <label for="" class="col-md-3 col-form-label">Url Instagram</label>
-                              <div class="col-md-9">
-                                <input type="text" name="instagramcompany" id="instagramcompany" class="form-control" placeholder="https://instagram.com" value="<?php echo($rowcompany->instagramcompany) ?>">
-                              </div>
-                            </div>                      
-                            <div class="form-group row required">
-                              <label for="" class="col-md-3 col-form-label">Email</label>
-                              <div class="col-md-9">
-                                <input type="email" name="emailcompany" id="emailcompany" class="form-control" placeholder="contohemail@gmail.com" value="<?php echo($rowcompany->emailcompany) ?>">
-                              </div>
-                            </div>
 
                             <h5 class="mt-5 mb-3">Informasi Lainnya</h5><hr>
                             <div class="form-group row required">
@@ -180,55 +145,13 @@
         validating: 'glyphicon glyphicon-refresh'
       },
       fields: {
-        alamatcompany: {
+        namacompany: {
           validators:{
             notEmpty: {
-                message: "alamat company tidak boleh kosong"
+                message: "nama usaha tidak boleh kosong"
             },
           }
-        },
-        notelp: {
-          validators:{
-            notEmpty: {
-                message: "no telp tidak boleh kosong"
-            },
-          }
-        },
-        logo: {
-          validators:{
-            notEmpty: {
-                message: "logo tidak boleh kosong"
-            },
-          }
-        },
-        facebookcompany: {
-          validators:{
-            notEmpty: {
-                message: "facebook tidak boleh kosong"
-            },
-          }
-        },
-        tweetercompany: {
-          validators:{
-            notEmpty: {
-                message: "tweeter tidak boleh kosong"
-            },
-          }
-        },
-        instagramcompany: {
-          validators:{
-            notEmpty: {
-                message: "instagram tidak boleh kosong"
-            },
-          }
-        },
-        emailcompany: {
-          validators:{
-            notEmpty: {
-                message: "email usaha tidak boleh kosong"
-            },
-          }
-        },
+        },        
         matauang: {
           validators:{
             notEmpty: {

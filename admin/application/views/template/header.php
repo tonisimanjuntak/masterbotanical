@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Master Botanical</title>
-  <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('../images/logo.jpg') ?>" />
+  <title><?php echo $this->session->userdata('namacompany'); ?></title>
+  <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->session->userdata('logo') ?>" />
 
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="<?php echo(base_url()) ?>assets/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">

@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pages extends CI_Controller {
+class Pages extends MY_Controller {
 
 	public function __construct()
     {
         parent::__construct();
+        $this->loadInfoCompany();
         // $this->load->model('Pages_model.php');
     }
 

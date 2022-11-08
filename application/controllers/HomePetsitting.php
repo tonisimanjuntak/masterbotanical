@@ -1,13 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class HomePetsitting extends CI_Controller
+class HomePetsitting extends MY_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Home_model');
+        $this->loadInfoCompany();
         //Do your magic here
     }
 

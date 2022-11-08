@@ -1,19 +1,21 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Login extends CI_Controller
+class Login extends MY_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Login_model');
+        $this->loadInfoCompany();
     }
 
     public function keluar()
     {
         //$this->session->sess_destroy();
         $this->session->unset_userdata('idkonsumen');
+        $this->session->unset_userdata('namacompany');
         redirect( site_url() );
     }
 
@@ -48,11 +50,21 @@ class Login extends CI_Controller
                     $foto = base_url('images/users1.png');
                 }
 
+                $rowcompany = $this->db->query("select * from company limit 1")->row();
+                if (!empty($rowcompany->logo)) {
+                    $logo = base_url('uploads/company/'.$rowcompany->logo);
+                }else{
+                    $logo = base_url('images/logo.jpg');                    
+                }                
+                
                 $data = array(
                     'idkonsumen'   => $result->idkonsumen,
                     'namakonsumen' => $result->namakonsumen,
                     'email'        => $result->email,
                     'foto'         => $foto,
+                    'matauang' => $rowcompany->matauang,
+                    'namacompany' => $rowcompany->namacompany,
+                    'logo' => $logo,
                 );
 
                 $this->session->set_userdata($data);

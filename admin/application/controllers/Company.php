@@ -136,12 +136,6 @@ class Company extends CI_Controller {
     {       
         $namacompany             = $this->input->post('namacompany');
         $alamatcompany        = $this->input->post('alamatcompany');
-        $notelp        = $this->input->post('notelp');
-        $nofax        = $this->input->post('nofax');
-        $facebookcompany        = $this->input->post('facebookcompany');
-        $tweetercompany        = $this->input->post('tweetercompany');
-        $instagramcompany        = $this->input->post('instagramcompany');
-        $emailcompany        = $this->input->post('emailcompany');
         $matauang        = $this->input->post('matauang');
         $tglinsert          = date('Y-m-d H:i:s');
 
@@ -149,14 +143,9 @@ class Company extends CI_Controller {
         $foto = $this->update_upload_foto($_FILES, "file", $file_lama);
 
         $data = array(
+                        'namacompany'   => $namacompany, 
                         'alamatcompany'   => $alamatcompany, 
-                        'notelp'   => $notelp, 
-                        'nofax'   => $nofax, 
                         'logo'   => $foto, 
-                        'facebookcompany'   => $facebookcompany, 
-                        'tweetercompany'   => $tweetercompany, 
-                        'instagramcompany'   => $instagramcompany, 
-                        'emailcompany'   => $emailcompany, 
                         'matauang'   => $matauang, 
                     );
         $simpan = $this->Company_model->simpan($data);      

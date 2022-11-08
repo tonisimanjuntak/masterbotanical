@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class News extends CI_Controller {
+class News extends MY_Controller {
 
 	public function __construct()
     {
         parent::__construct();
         $this->load->model('News_model');
+        $this->loadInfoCompany();
     }
 
     public function is_login()
