@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MY_controller extends CI_Controller {
+class MY_Controller extends CI_Controller {
 
     public function loadInfoCompany()
     {
@@ -24,5 +24,5 @@ class MY_controller extends CI_Controller {
 
 }
 
-/* End of file MY_controller.php */
-/* Location: ./application/core/MY_controller.php */
+/* End of file MY_Controller.php */
+/* Location: ./application/core/MY_Controller.php */
