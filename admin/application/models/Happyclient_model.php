@@ -95,6 +95,11 @@ class Happyclient_model extends CI_Model {
         return $this->db->update($this->tabel, $data);
     }
 
+    public function simpanbg($foto)
+    {
+        return $this->db->query("update setting set bghappyclient='$foto'");
+    }
+
 }
 
 /* End of file Happyclient_model.php */

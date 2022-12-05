@@ -34,6 +34,29 @@ if (!empty($pesan)) {
 }
 ?>
             </div>
+
+            <div class="col-12 mb-3">
+              <form action="<?php echo site_url('happyclient/simpanbg') ?>" method="POST" enctype="multipart/form-data" id="form">
+                
+                <div class="form-group">
+                  <div class="row">
+                    <label for="" class="col-md-2">Gambar Background</label>
+                    <div class="col-md-10">
+                      <div class="row">
+                        <div class="col-12">
+                          <input type="file" name="bghappyclient" id="bghappyclient">
+                          <input type="hidden" name="bghappyclient_old" id="bghappyclient_old" value="<?php echo $rowSetting->bghappyclient ?>">
+                        </div>
+                        <div class="col-12">
+                          <a href="<?php echo base_url('../uploads/pengaturan/'.$rowSetting->bghappyclient) ?>" target="_blank"><?php echo $rowSetting->bghappyclient ?></a>
+                        </div>
+                      </div>
+                    </div>                  
+                  </div>
+                </div>
+
+              </form>
+            </div>
             <div class="col-md-12">
               <!-- datatable -->
               <div class="table-responsive">
@@ -110,6 +133,11 @@ if (!empty($pesan)) {
         document.location.href = link;
       }
     });
+  });
+
+  $('#bghappyclient').change(function(e) {
+    // alert("test");
+    $('#form').submit();
   });
 
 

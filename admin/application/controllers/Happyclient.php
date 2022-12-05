@@ -24,6 +24,7 @@ class Happyclient extends CI_Controller {
 
     public function index()
     {
+        $data['rowSetting'] = $this->db->query("select * from setting")->row();
         $data['menu'] = 'happyclient';
         $this->load->view('happyclient/listdata', $data);
     }
@@ -198,6 +199,49 @@ class Happyclient extends CI_Controller {
         redirect('happyclient');
     }
 
+    public function simpanbg()
+    {
+
+        $bghappyclient = $this->input->post('bghappyclient');
+        $bghappyclient_old = $this->input->post('bghappyclient_old');
+
+        $file_lama = $this->input->post('bghappyclient_old');
+        $foto      = $this->uploadBgHappyClient($_FILES, "bghappyclient", $file_lama);
+
+        if (!empty($foto)) {
+            
+            $simpan = $this->Happyclient_model->simpanbg($foto);
+
+            if ($simpan) {
+                $pesan = '<div>
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Berhasil!</strong> Data berhasil disimpan!
+                            </div>
+                        </div>';
+            } else {
+                $eror  = $this->db->error();
+                $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Gagal!</strong> Data gagal disimpan! <br>
+                                Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
+                            </div>
+                        </div>';
+            }
+        }else{
+            $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Gagal!</strong> gambar tidak ditemukan! <br>
+                            </div>
+                        </div>';
+        }
+
+        $this->session->set_flashdata('pesan', $pesan);
+        redirect('happyclient');
+    }
+
     public function get_edit_data()
     {
         $idhappyclient = $this->input->post('idhappyclient');
@@ -243,6 +287,29 @@ class Happyclient extends CI_Controller {
     {
         if (!empty($file[$nama]['name'])) {
             $config['upload_path']   = '../uploads/happyclient/';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
+            $config['remove_space']  = true;
+            $config['max_size']      = '2000KB';
+
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload($nama)) {
+                $foto = $this->upload->data('file_name');
+                $size = $this->upload->data('file_size');
+                $ext  = $this->upload->data('file_ext');
+            } else {
+                $foto = $file_lama;
+            }
+        } else {
+            $foto = $file_lama;
+        }
+
+        return $foto;
+    }
+
+    public function uploadBgHappyClient($file, $nama, $file_lama)
+    {
+        if (!empty($file[$nama]['name'])) {
+            $config['upload_path']   = '../uploads/pengaturan/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['remove_space']  = true;
             $config['max_size']      = '2000KB';

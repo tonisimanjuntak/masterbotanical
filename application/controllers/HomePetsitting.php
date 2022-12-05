@@ -25,6 +25,7 @@ class HomePetsitting extends MY_Controller
                                 ");
         $rowcompany     = $this->db->query("select * from company limit 1")->row();
         $rowcounter     = $this->db->query("select * from utilcounter limit 1")->row();
+        $rowsetting     = $this->db->query("select * from setting limit 1")->row();
 
         $jlhproduk = $this->db->query("select count(*) as jlhproduk from produk ")->row()->jlhproduk;
         $jlhcostumer = $this->db->query("select count(*) as jlhcostumer from konsumen ")->row()->jlhcostumer;
@@ -33,12 +34,19 @@ class HomePetsitting extends MY_Controller
         $jlhcostumer += $rowcounter->costumer;
         $jlhtotalsale += $rowcounter->totalsale;
         
+        $bghappyclient = base_url('images/happy-smileys.jpg');
+        if (!empty($rowsetting->bghappyclient)) {
+            $bghappyclient = base_url('uploads/pengaturan/'.$rowsetting->bghappyclient);            
+        }
+
         $data['jlhcostumer']     = $jlhcostumer;
         $data['jlhtotalsale']     = $jlhtotalsale;
         $data['jlhproduk']     = $jlhproduk;
         $data['rowcompany']     = $rowcompany;
         $data['rowtabinfo']     = $rowtabinfo;
         $data['rowwhychooseus'] = $rowwhychooseus;
+        $data['rowsetting'] = $rowsetting;
+        $data['bghappyclient'] = $bghappyclient;
         $data['rshappyclient']  = $rshappyclient;
         $data['rowsosialmedia'] = $rowsosialmedia;
         $data['rsbestseller']   = $rsbestseller;

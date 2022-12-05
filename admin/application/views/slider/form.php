@@ -57,6 +57,18 @@ if (!empty($pesan)) {
                     </div>
                   </div>
 
+                  <div class="form-group row">
+                    <div class="col-md-3"></div>
+                    <div class="col-9">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="tampilkancatatan" id="tampilkancatatan" value="Ya">
+                        <label class="form-check-label" for="tampilkancatatan">
+                          Tampilkan Judul dan Catatan Kecil
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="form-group row text center">
                       <label for="" class="col-md-12 col-form-label">Gambar Slider <span style="color: red; font-size: 12px; font-weight: bold;"><i> Max ukuran file 2MB</i></span></label>
                       <div class="col-md-12 mt-3 text-center">
@@ -76,6 +88,8 @@ if (!empty($pesan)) {
                         </script>
                       </div>
                   </div>
+
+                  
 
               </div> <!-- ./card-body -->
 
@@ -117,8 +131,11 @@ if (!empty($pesan)) {
             $("#idslider").val(result.idslider);
             $("#judul").val(result.judul);
             $("#catatan").val(result.catatan);
+            if (result.tampilkancatatan=="Ya") {
+              $('#tampilkancatatan').prop("checked", true);
+            }
+            
             $("#gambarslider").val(result.gambarslider);
-
             $('#file_lama').val(result.gambarslider);
 
             if ( result.gambarslider != '' && result.gambarslider != null ) {

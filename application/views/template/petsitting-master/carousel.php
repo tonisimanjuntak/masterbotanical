@@ -22,10 +22,17 @@
 
         <div class="carousel-item <?php echo $active ?>">
           <img class="d-block w-100" src="<?php echo $gambarslider ?>" alt="First slide">
-          <div class="carousel-caption d-none d-md-block bg-success mb-4">
-            <h5><?php echo $row->judul ?></h5>
-            <p><?php echo $row->catatan ?></p>
-          </div>
+          <?php  
+            if ($row->tampilkancatatan=='Ya') {
+              echo '
+                <div class="carousel-caption d-none d-md-block bg-success mb-4">
+                  <h5>'.$row->judul.'</h5>
+                  <p>'.$row->catatan.'</p>
+                </div>
+              ';
+            }
+          ?>
+          
         </div>
 
 

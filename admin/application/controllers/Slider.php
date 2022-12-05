@@ -136,9 +136,14 @@ class Slider extends CI_Controller
         $idslider     = $this->input->post('idslider');
         $judul        = $this->input->post('judul');
         $catatan      = $this->input->post('catatan');
+        $tampilkancatatan      = $this->input->post('tampilkancatatan');
         $tglinsert    = date('Y-m-d H:i:s');
         $idpengguna   = $this->session->userdata('idpengguna');
         $gambarslider = '';
+
+        if ($tampilkancatatan!="Ya") {
+            $tampilkancatatan="Tidak";
+        }
 
         if ($idslider == '') {
 
@@ -146,6 +151,7 @@ class Slider extends CI_Controller
             $data = array(
                 'judul'        => $judul,
                 'catatan'      => $catatan,
+                'tampilkancatatan'      => $tampilkancatatan,
                 'gambarslider' => $foto,
             );
             $simpan = $this->Slider_model->simpan($data);
@@ -157,6 +163,7 @@ class Slider extends CI_Controller
             $data = array(
                 'judul'        => $judul,
                 'catatan'      => $catatan,
+                'tampilkancatatan'      => $tampilkancatatan,
                 'gambarslider' => $foto,
             );
 
@@ -194,6 +201,7 @@ class Slider extends CI_Controller
             'idslider'     => $RsData->idslider,
             'judul'        => $RsData->judul,
             'catatan'      => $RsData->catatan,
+            'tampilkancatatan'      => $RsData->tampilkancatatan,
             'gambarslider' => $RsData->gambarslider,
         );
 

@@ -26,8 +26,10 @@ class Company extends CI_Controller {
     public function index()
     {
         $rowcompany = $this->db->query("select * from company limit 1")->row();
+        $rowsetting = $this->db->query("select * from setting limit 1")->row();
 
         $data['rowcompany'] =$rowcompany;        
+        $data['rowsetting'] =$rowsetting;        
         $data['menu'] = 'company';
         $this->load->view('company/form', $data);        
     }   
@@ -139,17 +141,12 @@ class Company extends CI_Controller {
         $matauang        = $this->input->post('matauang');
         $tglinsert          = date('Y-m-d H:i:s');
 
-        $file_lama = $this->input->post('file_lama');
-        $foto = $this->update_upload_foto($_FILES, "file", $file_lama);
-
         $data = array(
                         'namacompany'   => $namacompany, 
                         'alamatcompany'   => $alamatcompany, 
-                        'logo'   => $foto, 
                         'matauang'   => $matauang, 
                     );
         $simpan = $this->Company_model->simpan($data);      
-
 
         if ($simpan) {
             $pesan = '<div>
@@ -170,6 +167,62 @@ class Company extends CI_Controller {
         }
 
         $this->session->set_flashdata('pesan', $pesan);
+        redirect('company');   
+    }
+
+    public function simpanLogoUsaha()
+    {
+        $fileLogoUsaha_old = $this->input->post('fileLogoUsaha_old');
+        $foto = $this->uploadSetting($_FILES, "fileLogoUsaha", $fileLogoUsaha_old);
+        if (!empty($foto)) {
+            $simpan = $this->db->query("update setting set logousaha='$foto'");
+            if ($simpan) {
+                $pesan = '<div>
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Berhasil!</strong> Data berhasil disimpan!
+                            </div>
+                        </div>';
+            }else{
+                $eror = $this->db->error();         
+                $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Gagal!</strong> Data gagal disimpan! <br>
+                                Pesan Error : '.$eror['code'].' '.$eror['message'].'
+                            </div>
+                        </div>';
+            }
+            $this->session->set_flashdata('pesan', $pesan);
+        }        
+        redirect('company');   
+    }
+
+    public function simpanLogoTab()
+    {
+        $fileLogoTab_old = $this->input->post('fileLogoTab_old');
+        $foto = $this->uploadSetting($_FILES, "fileLogoTab", $fileLogoTab_old);
+        if (!empty($foto)) {
+            $simpan = $this->db->query("update setting set logotab='$foto'");
+            if ($simpan) {
+                $pesan = '<div>
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Berhasil!</strong> Data berhasil disimpan!
+                            </div>
+                        </div>';
+            }else{
+                $eror = $this->db->error();         
+                $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Gagal!</strong> Data gagal disimpan! <br>
+                                Pesan Error : '.$eror['code'].' '.$eror['message'].'
+                            </div>
+                        </div>';
+            }
+            $this->session->set_flashdata('pesan', $pesan);
+        }        
         redirect('company');   
     }
     
@@ -222,6 +275,31 @@ class Company extends CI_Controller {
     {
         if (!empty($file[$nama]['name'])) {
             $config['upload_path']          = '../uploads/company/';
+            $config['allowed_types']        = 'gif|jpg|png|jpeg';
+            $config['remove_space']         = TRUE;
+            $config['max_size']            = '2000KB';
+            
+
+            $this->load->library('upload', $config);           
+            if ($this->upload->do_upload($nama)) {
+                $foto = $this->upload->data('file_name');
+                $size = $this->upload->data('file_size');
+                $ext  = $this->upload->data('file_ext'); 
+            }else{
+                $foto = $file_lama;
+            }          
+        }else{          
+            $foto = $file_lama;
+        }
+
+        return $foto;
+    }
+
+
+    public function uploadSetting($file, $nama, $file_lama)
+    {
+        if (!empty($file[$nama]['name'])) {
+            $config['upload_path']          = '../uploads/pengaturan/';
             $config['allowed_types']        = 'gif|jpg|png|jpeg';
             $config['remove_space']         = TRUE;
             $config['max_size']            = '2000KB';

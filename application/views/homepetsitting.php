@@ -225,7 +225,7 @@ if ($rsfaq->num_rows() > 0) {
       </div>
     </section>
 
-    <section class="ftco-section testimony-section" style="background-image: url('<?php echo base_url('images/happy-smileys.jpg') ?>');">
+    <section class="ftco-section testimony-section" style="background-image: url('<?php echo $bghappyclient ?>');">
       <div class="overlay"></div>
       <div class="container">
         <div class="row justify-content-center pb-5 mb-3">
