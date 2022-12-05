@@ -226,6 +226,34 @@ class Company extends CI_Controller {
         redirect('company');   
     }
     
+    public function simpanLogoFreecon()
+    {
+        $fileLogoFreeConsultation_old = $this->input->post('fileLogoFreeConsultation_old');
+        $foto = $this->uploadSetting($_FILES, "fileLogoFreeConsultation", $fileLogoFreeConsultation_old);
+        if (!empty($foto)) {
+            $simpan = $this->db->query("update setting set logofreeconsultation='$foto'");
+            if ($simpan) {
+                $pesan = '<div>
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Berhasil!</strong> Data berhasil disimpan!
+                            </div>
+                        </div>';
+            }else{
+                $eror = $this->db->error();         
+                $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <strong>Gagal!</strong> Data gagal disimpan! <br>
+                                Pesan Error : '.$eror['code'].' '.$eror['message'].'
+                            </div>
+                        </div>';
+            }
+            $this->session->set_flashdata('pesan', $pesan);
+        }        
+        redirect('company');   
+    }
+
     public function get_edit_data()
     {
         $namacompany = $this->input->post('namacompany');

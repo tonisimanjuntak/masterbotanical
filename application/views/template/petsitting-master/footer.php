@@ -151,7 +151,7 @@ Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
   <script>
   
   $('.carousel').carousel({
-    interval: 5000,
+    interval: <?php echo $this->session->userdata('intervalslider'); ?>,
     pause: false
   })
 

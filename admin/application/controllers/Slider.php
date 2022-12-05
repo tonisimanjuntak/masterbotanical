@@ -25,6 +25,8 @@ class Slider extends CI_Controller
 
     public function index()
     {
+        $rowSetting = $this->db->query("select * from setting limit 1")->row();
+        $data['rowSetting'] = $rowSetting;
         $data['menu'] = 'slider';
         $this->load->view('slider/listdata', $data);
     }
@@ -188,6 +190,21 @@ class Slider extends CI_Controller
                     </div>';
         }
 
+        $this->session->set_flashdata('pesan', $pesan);
+        redirect('slider');
+    }
+
+    public function simpanInterval()
+    {
+        $intervalslider = $this->input->post('intervalslider');
+        $this->db->query("update setting set intervalslider=$intervalslider");
+        
+        $pesan = '<div>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        <strong>Berhasil!</strong> Data berhasil disimpan!
+                    </div>
+                </div>';
         $this->session->set_flashdata('pesan', $pesan);
         redirect('slider');
     }

@@ -163,7 +163,7 @@
 
 
                             <div class="col-md-2">
-                              <form action="<?php echo site_url('company/simpanLogoFreecon') ?>" method="POST" id="formLogoFreecon" enctype="multipart/form-data">
+                              <form action="<?php echo site_url('company/simpanLogoFreecon') ?>" method="POST" id="formLogoFreeConsultation" enctype="multipart/form-data">
                                 <div class="card">
                                   <div class="card-body" style="height: 300px;">                                    
                                       <div class="form-group row text center">
@@ -182,8 +182,8 @@
                                             <div class="form-group">
                                                 <span class="btn btn-primary btn-file btn-block;" style="width:90%;">
                                                   <span class="fileinput-new"><span class="fa fa-camera"></span> Upload Gambar</span>
-                                                  <input type="file" name="fileLogoFreecon" id="fileLogoFreecon" accept="image/*" onchange="this.form.submit()">
-                                                  <input type="hidden" value="" name="fileLogoFreecon_old" id="fileLogoFreecon_old" class="form-control" value="<?php echo $rowsetting->logofreeconsultation ?>" />
+                                                  <input type="file" name="fileLogoFreeConsultation" id="fileLogoFreeConsultation" accept="image/*" onchange="this.form.submit()">
+                                                  <input type="hidden" value="" name="fileLogoFreeConsultation_old" id="fileLogoFreeConsultation_old" class="form-control" value="<?php echo $rowsetting->logofreeconsultation ?>" />
                                                 </span>
                                             </div>
                                           </div>

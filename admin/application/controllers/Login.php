@@ -21,7 +21,14 @@ class Login extends CI_Controller {
         if (!empty($idpengguna)) {
             redirect(site_url());
         }else{
-            $this->load->view('login');     
+            $rowSetting = $this->db->query("select * from setting limit 1")->row();
+            $logousaha = base_url('../images/logo.jpg');
+            if (!empty($rowSetting->logousaha)) {
+                $logousaha = base_url('../uploads/pengaturan/'.$rowSetting->logousaha);
+            }
+            $data['logousaha'] = $logousaha;
+            $data['rowSetting'] = $rowSetting;
+            $this->load->view('login', $data);     
         }
 
     }

@@ -5,21 +5,28 @@ class MY_Controller extends CI_Controller {
 
     public function loadInfoCompany()
     {
-        if (empty($this->session->userdata('namacompany'))) {
-            
-            $rowcompany = $this->db->query("select * from company limit 1")->row();
-            if (!empty($rowcompany->logo)) {
-                $logo = base_url('uploads/company/'.$rowcompany->logo);
-            }else{
-                $logo = base_url('images/logo.jpg');                    
-            }                
-            $data = array(
-                'matauang' => $rowcompany->matauang,
-                'namacompany' => $rowcompany->namacompany,
-                'logo' => $logo,
-            );
-            $this->session->set_userdata($data);
+        $rowsetting = $this->db->query("select * from setting limit 1")->row();
+        $rowcompany = $this->db->query("select * from company limit 1")->row();
+        if (!empty($rowsetting->logousaha)) {
+            $logo = base_url('uploads/pengaturan/'.$rowsetting->logousaha);
+        }else{
+            $logo = base_url('images/logo.jp`g');                    
+        }                
+
+        if ($rowsetting->intervalslider==0 || empty($rowsetting->intervalslider)) {
+            $intervalslider = 1;
+        }else{
+            $intervalslider = $rowsetting->intervalslider;
         }
+
+        $data = array(
+            'matauang' => $rowcompany->matauang,
+            'namacompany' => $rowcompany->namacompany,
+            'intervalslider' => $intervalslider*1000,
+            'logo' => $logo,
+        );
+        $this->session->set_userdata($data);
+        
     }
 
 }

@@ -34,6 +34,23 @@ if (!empty($pesan)) {
 }
 ?>
             </div>
+
+            <div class="col-12 mb-3">
+              <form action="<?php echo site_url('slider/simpanInterval') ?>" method="POST">
+                
+                <div class="form-group row">
+                  <label for="" class="col-md-2">Interval Slider (Detik)</label>
+                  <div class="col-md-2">
+                    <input type="number" name="intervalslider" id="intervalslider" class="form-control" min="1" max="999" value="<?php echo $rowSetting->intervalslider ?>">
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-sm btn-success">Simpan</button>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
             <div class="col-md-12">
               <!-- datatable -->
               <div class="table-responsive">

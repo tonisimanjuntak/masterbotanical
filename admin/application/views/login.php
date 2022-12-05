@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>APP | Log in</title>
-  <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('../images/logo.jpg') ?>" />
+  <link rel="shortcut icon" type="image/x-icon" href="<?php echo $logousaha ?>" />
   
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@
 
       <div class="col-12 text-center mb-5">
         
-        <img src="<?php echo base_url('../images/logo.jpg') ?>" alt="">
+        <img src="<?php echo $logousaha ?>" alt="" width="80%" height="200px;">
       </div>
 
       <!-- <p class="login-box-msg">Silahkan login untuk melanjutkan</p> -->

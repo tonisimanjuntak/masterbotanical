@@ -152,10 +152,7 @@
                 <span class="fa fa-play"></span>
               </a>
             </div>
-            <div class="d-flex mt-3">
-              <div class="img img-2 mr-md-2" style="background-image:url(<?php echo base_url('images/frequently-asked-questions.jpg') ?>);"></div>
-              <div class="img img-2 ml-md-2" style="background-image:url(<?php echo base_url('images/frequently-asked-questions.jpg') ?>);"></div>
-            </div>
+            
           </div>
 
           <div class="col-lg-6">
@@ -495,7 +492,7 @@ if ($rsspesialoffer->num_rows() > 0) {
       </div>
     </section>
 
-    <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img" style="background-image: url(images/produk1.jpg);">
+    <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img" style="background-image: url(<?php echo $logofreeconsultation; ?>);">
       <div class="overlay"></div>
       <div class="container">
         <div class="row d-md-flex justify-content-end">

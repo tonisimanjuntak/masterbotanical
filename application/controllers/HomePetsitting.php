@@ -39,6 +39,11 @@ class HomePetsitting extends MY_Controller
             $bghappyclient = base_url('uploads/pengaturan/'.$rowsetting->bghappyclient);            
         }
 
+        $logofreeconsultation = 'images/produk1.jpg';
+        if (!empty($rowsetting->logofreeconsultation)) {
+            $logofreeconsultation = 'uploads/pengaturan/'.$rowsetting->logofreeconsultation;            
+        }
+
         $data['jlhcostumer']     = $jlhcostumer;
         $data['jlhtotalsale']     = $jlhtotalsale;
         $data['jlhproduk']     = $jlhproduk;
@@ -47,6 +52,7 @@ class HomePetsitting extends MY_Controller
         $data['rowwhychooseus'] = $rowwhychooseus;
         $data['rowsetting'] = $rowsetting;
         $data['bghappyclient'] = $bghappyclient;
+        $data['logofreeconsultation'] = $logofreeconsultation;
         $data['rshappyclient']  = $rshappyclient;
         $data['rowsosialmedia'] = $rowsosialmedia;
         $data['rsbestseller']   = $rsbestseller;
