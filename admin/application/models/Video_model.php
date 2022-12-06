@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Video_model extends CI_Model {
 
-	public function update($data)
+	public function simpan($data)
 	{
-		return $this->db->update('utilvideo', $data);
+		return $this->db->insert('utilvideo', $data);
 	}
 
 }

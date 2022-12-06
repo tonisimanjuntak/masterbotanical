@@ -42,7 +42,7 @@ class Video extends CI_Controller {
 	                'sampulvideo'   => $foto, 
 	            );
 
-		$simpan = $this->Video_model->update($data);
+		$simpan = $this->Video_model->simpan($data);
 
 
         if ($simpan) {
@@ -65,6 +65,11 @@ class Video extends CI_Controller {
                 
         $this->session->set_flashdata('pesan', $pesan);
         redirect('video');
+    }
+
+    public function hapus($idutilvideo)
+    {
+        $idutilvideo
     }
 
 

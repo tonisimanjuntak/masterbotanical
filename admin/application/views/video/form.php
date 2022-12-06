@@ -20,74 +20,93 @@ $this->load->view("template/sidemenu");
 
   <div class="row" id="toni-content">
     <div class="col-md-12">
-      <form action="<?php echo (site_url('video/simpan')) ?>" method="post" id="form" enctype="multipart/form-data">
         <div class="row">
           <div class="col-md-12">
             <div class="card" id="cardcontent">
               <div class="card-body">
 
-                  <div class="col-md-12">
-                    <?php
-$pesan = $this->session->flashdata("pesan");
-if (!empty($pesan)) {
-    echo $pesan;
-}
-?>
-                  </div>
 
-                  <div class="col-md-12">
-                    
-                    <div class="form-group row">
-                      <label for="" class="col-md-3 col-form-label">URL Video</label>
-                      <div class="col-md-9">
-                        <input type="text" name="urlvideo" id="urlvideo" class="form-control" placeholder="https://www.youtube.com/watch?v=sEskE9KeJJw" value="<?php echo $rowvideo->urlvideo ?>">
-                      </div>
+                <form action="<?php echo (site_url('video/simpan')) ?>" method="post" id="form" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <?php
+                      $pesan = $this->session->flashdata("pesan");
+                      if (!empty($pesan)) {
+                          echo $pesan;
+                      }
+                      ?>
                     </div>
 
-
-                    <div class="form-group row text center">
-                        <label for="" class="col-md-12 col-form-label">Sampul Video <span style="color: red; font-size: 12px; font-weight: bold;"><i> Max ukuran file 2MB</i></span></label>
-                        <div class="col-md-12 mt-3 text-center">
-                          <?php    
-                              $sampulvideo = '';
-                              if (empty($rowvideo->sampulvideo)) {
-                                $sampulvideo = base_url('../images/nofoto.png');
-                              }else{
-                                $sampulvideo = base_url('../uploads/video/'.$rowvideo->sampulvideo);
-                              }
-                          ?>
-                          <img src="<?php echo $sampulvideo ?>" id="output1" class="img-thumbnail" style="width:30%;max-height:30%;">
-                          <div class="form-group">
-                              <span class="btn btn-primary btn-file btn-block;" style="width:30%;">
-                                <span class="fileinput-new"><span class="fa fa-camera"></span> Upload Foto</span>
-                                <input type="file" name="file" id="file" accept="image/*" onchange="loadFile1(event)">
-                                <input type="hidden"  name="file_lama" id="file_lama" class="form-control" value="<?php   echo $rowvideo->sampulvideo ?>" />
-                              </span>
-                          </div>
-                          <script type="text/javascript">
-                              var loadFile1 = function(event) {
-                                  var output1 = document.getElementById('output1');
-                                  output1.src = URL.createObjectURL(event.target.files[0]);
-                              };
-                          </script>
+                    <div class="col-md-12">
+                      
+                      <div class="form-group row">
+                        <label for="" class="col-md-3 col-form-label">Gambar Sampul</label>
+                        <div class="col-md-9">
+                              <input type="file" name="file" id="file" accept="image/*" onchange="loadFile1(event)">
+                              <input type="hidden"  name="file_lama" id="file_lama" class="form-control" />
                         </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="" class="col-md-3 col-form-label">URL Video</label>
+                        <div class="col-md-9">
+                          <input type="text" name="urlvideo" id="urlvideo" class="form-control" placeholder="https://www.youtube.com/watch?v=sEskE9KeJJw">
+                        </div>
+                      </div>
+
                     </div>
 
+                    <div class="col-12">
+                     <button type="submit" class="btn btn-success float-right"><i class="fa fa-save"></i> Simpan</button>
+                    </div>                  
                   </div>
+                </form>
 
-                  
-
-                  
+                <div class="row mt-5">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-condesed" id="table">
+                        <thead>
+                           <tr class="bg-success" style="">
+                            <th style="width: 5%; text-align: center;">NO</th>
+                            <th style="width: 15%; text-align: center;">GAMBAR SAMPUL</th>
+                            <th style="text-align: center;">URL VIDEO</th>
+                            <th style="text-align: center; width: 15%;">AKSI</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php 
+                            $rsVideo = $this->db->query("
+                                select * from utilvideo order by idutilvideo
+                              ");
+                            if ($rsVideo->num_rows()>0) {
+                              $no=1;
+                              $sampulvideo = base_url('images/nofoto.png');
+                              if (!empty($row->sampulvideo)) {
+                                $sampulvideo = base_url('../uploads/video/'.$row->sampulvideo);
+                              }
+                              foreach ($rsVideo->result() as $row) {
+                                echo '
+                                  <tr style="">
+                                    <td style="width: 5%; text-align: center;">'.$no++.'</td>
+                                    <td style="width: 15%; text-align: center;"><img src="'.$sampulvideo.'" alt="" style="width: 80%;"></td>
+                                    <td style="text-align: center;"><a href="'.$row->urlvideo.'" target="_blank">'.$row->urlvideo.'</a></td>
+                                    <td style="text-align: center; width: 15%;"><a href="'.site_url('video/hapus/'.$this->encrypt->encode($row->idutilvideo)).'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                                  </tr>
+                                ';
+                              }
+                            }
+                          ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
 
               </div> <!-- ./card-body -->
 
-              <div class="card-footer">
-                 <button type="submit" class="btn btn-success float-right"><i class="fa fa-save"></i> Simpan</button>
-              </div>
             </div> <!-- /.card -->
           </div> <!-- /.col -->
         </div>
-      </form>
     </div>
   </div> <!-- /.row -->
   <!-- Main row -->
@@ -102,13 +121,28 @@ if (!empty($pesan)) {
   // console.log(fontAwesomeIcon);
 
   $(document).ready(function() {
-
     $('.select2').select2();
+    table = $("#table").DataTable();
 
+    //----------------------------------------------------------------- > validasi
+    $("#form").bootstrapValidator({
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        urlvideo: {
+          validators:{
+            notEmpty: {
+                message: "urlvideo tidak boleh kosong"
+            },
+          }
+        },
+      }
+    });
 
     $("form").attr('autocomplete', 'off');
-    //$("#tanggal").mask("00-00-0000", {placeholder:"hh-bb-tttt"});
-    //$("#jumlah").mask("000,000,000,000", {reverse: true});
   }); //end (document).ready
 
 
