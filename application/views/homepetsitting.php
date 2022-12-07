@@ -295,7 +295,7 @@ if ($rsbestseller->num_rows() > 0) {
                           </div>
                           <div class="text-center p-4">
                             <span class="excerpt d-block">' . $row->namaproduk . '</span>
-                            <span class="price"><sup>$</sup> <span class="number">' . $row->lowestprice . '</span> <sub>/mos</sub></span>
+                            <span class="price"><sup>$</sup> <span class="number">' . $row->lowestprice . '</span> <sub></sub></span>
 
                             <ul class="pricing-text mb-5">';
 
@@ -316,7 +316,7 @@ if ($rsbestseller->num_rows() > 0) {
         $output .= '
                             </ul>
 
-                            <a href="#" class="btn btn-primary d-block px-2 py-3">See Product</a>
+                            <a href="'.site_url('shop/detail/'.$this->encrypt->encode($row->idproduk)).'" class="btn btn-primary d-block px-2 py-3">See Product</a>
                           </div>
                         </div>
                       </div>
@@ -362,7 +362,7 @@ if ($rsspesialoffer->num_rows() > 0) {
                           </div>
                           <div class="text-center p-4">
                             <span class="excerpt d-block">' . $row->namaproduk . '</span>
-                            <span class="price"><sup>$</sup> <span class="number">' . $row->lowestprice . '</span> <sub>/mos</sub></span>
+                            <span class="price"><sup>$</sup> <span class="number">' . $row->lowestprice . '</span> <sub></sub></span>
 
                             <ul class="pricing-text mb-5">';
 
@@ -383,7 +383,7 @@ if ($rsspesialoffer->num_rows() > 0) {
         $output .= '
                             </ul>
 
-                            <a href="#" class="btn btn-primary d-block px-2 py-3">See Product</a>
+                            <a href="'.site_url('shop/detail/'.$this->encrypt->encode($row->idproduk)).'" class="btn btn-primary d-block px-2 py-3">See Product</a>
                           </div>
                         </div>
                       </div>
@@ -466,15 +466,15 @@ if ($rsspesialoffer->num_rows() > 0) {
                         
                         <div class="col-md-4 d-flex ftco-animate">
                           <div class="blog-entry align-self-stretch">
-                            <a href="blog-single.html" class="block-20 rounded" style="background-image: url('.$gambarsampul.');">
+                            <a href="'.site_url('news/read/'.$row->judulnewsseo).'" class="block-20 rounded" style="background-image: url('.$gambarsampul.');">
                             </a>
                             <div class="text p-4">
                               <div class="meta mb-2">
-                                <div><a href="#">'.date('M d, Y', strtotime($row->tglinsert)).'</a></div>
-                                <div><a href="#">'.$row->namapengguna.'</a></div>
-                                <div><a href="#" class="meta-chat"><span class="fa fa-eye"></span> '.$countviews.'</a></div>
+                                <div><a href="'.site_url('news/read/'.$row->judulnewsseo).'">'.date('M d, Y', strtotime($row->tglinsert)).'</a></div>
+                                <div><a href="'.site_url('news/read/'.$row->judulnewsseo).'">'.$row->namapengguna.'</a></div>
+                                <div><a href="'.site_url('news/read/'.$row->judulnewsseo).'" class="meta-chat"><span class="fa fa-eye"></span> '.$countviews.'</a></div>
                               </div>
-                              <h3 class="heading"><a href="#">'.$row->judulnews.'</a></h3>
+                              <h3 class="heading"><a href="'.site_url('news/read/'.$row->judulnewsseo).'">'.$row->judulnews.'</a></h3>
                             </div>
                           </div>
                         </div>
