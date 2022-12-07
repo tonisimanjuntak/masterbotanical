@@ -90,7 +90,7 @@ $this->load->view("template/sidemenu");
                                     <td style="width: 5%; text-align: center;">'.$no++.'</td>
                                     <td style="width: 15%; text-align: center;"><img src="'.$sampulvideo.'" alt="" style="width: 80%;"></td>
                                     <td style="text-align: center;"><a href="'.$row->urlvideo.'" target="_blank">'.$row->urlvideo.'</a></td>
-                                    <td style="text-align: center; width: 15%;"><a href="'.site_url('video/hapus/'.$this->encrypt->encode($row->idutilvideo)).'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                                    <td style="text-align: center; width: 15%;"><a href="'.site_url('video/hapus/'.$this->encrypt->encode($row->idutilvideo)).'" class="btn btn-sm btn-danger" id="hapus"><i class="fa fa-trash"></i></a></td>
                                   </tr>
                                 ';
                               }
@@ -145,6 +145,15 @@ $this->load->view("template/sidemenu");
     $("form").attr('autocomplete', 'off');
   }); //end (document).ready
 
+  $(document).on("click", "#hapus", function(e) {
+    var link = $(this).attr("href");
+    e.preventDefault();
+    bootbox.confirm("Anda yakin ingin menghapus data ini ?", function(result) {
+      if (result) {
+        document.location.href = link;
+      }
+    });
+  });  
 
 </script>
 

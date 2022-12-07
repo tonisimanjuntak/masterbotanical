@@ -69,7 +69,40 @@ class Video extends CI_Controller {
 
     public function hapus($idutilvideo)
     {
-        $idutilvideo
+        $idutilvideo = $this->encrypt->decode($idutilvideo);
+        $rsdata   = $this->Video_model->get_by_id($idutilvideo);
+        if ($rsdata->num_rows() < 1) {
+            $pesan = '<div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Ilegal!</strong> Data tidak ditemukan!
+                        </div>
+                    </div>';
+            $this->session->set_flashdata('pesan', $pesan);
+            redirect('video');
+            exit();
+        };
+
+        $hapus = $this->Video_model->hapus($idutilvideo);
+        if ($hapus) {
+            $pesan = '<div>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Berhasil!</strong> Data berhasil dihapus!
+                        </div>
+                    </div>';
+        } else {
+            $eror  = $this->db->error();
+            $pesan = '<div>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            <strong>Gagal!</strong> Data gagal dihapus karena sudah digunakan! <br>
+                        </div>
+                    </div>';
+        }
+
+        $this->session->set_flashdata('pesan', $pesan);
+        redirect('video');
     }
 
 
