@@ -44,6 +44,9 @@ class HomePetsitting extends MY_Controller
             $logofreeconsultation = 'uploads/pengaturan/'.$rowsetting->logofreeconsultation;            
         }
 
+          $rsVideo = $this->db->query("select * from utilvideo");
+
+
         $data['jlhcostumer']     = $jlhcostumer;
         $data['jlhtotalsale']     = $jlhtotalsale;
         $data['jlhproduk']     = $jlhproduk;
@@ -57,6 +60,7 @@ class HomePetsitting extends MY_Controller
         $data['rowsosialmedia'] = $rowsosialmedia;
         $data['rsbestseller']   = $rsbestseller;
         $data['rsspesialoffer']   = $rsspesialoffer;
+        $data['rsVideo']   = $rsVideo;
         $data['rsfaq']          = $rsfaq;
         $data['menu']           = 'homepetsitting';
         $this->load->view('homepetsitting', $data);

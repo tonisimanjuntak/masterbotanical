@@ -80,11 +80,11 @@ $this->load->view("template/sidemenu");
                               ");
                             if ($rsVideo->num_rows()>0) {
                               $no=1;
-                              $sampulvideo = base_url('images/nofoto.png');
-                              if (!empty($row->sampulvideo)) {
-                                $sampulvideo = base_url('../uploads/video/'.$row->sampulvideo);
-                              }
                               foreach ($rsVideo->result() as $row) {
+                                $sampulvideo = base_url('images/nofoto.png');
+                                if (!empty($row->sampulvideo)) {
+                                  $sampulvideo = base_url('../uploads/video/'.$row->sampulvideo);
+                                }
                                 echo '
                                   <tr style="">
                                     <td style="width: 5%; text-align: center;">'.$no++.'</td>

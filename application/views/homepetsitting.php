@@ -138,20 +138,71 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 order-md-last">
-            <?php  
-              $rowvideo = $this->db->query("select * from utilvideo")->row();
-              $urlvideo = $rowvideo->urlvideo;
-              if (!empty($rowvideo->sampulvideo)) {
-                $sampulvideo = base_url('uploads/video/'.$rowvideo->sampulvideo);                
-              }else{
-                $sampulvideo = base_url('images/youtube.jpg');                                
-              }
-            ?>
-            <div class="img img-video d-flex align-self-stretch align-items-center justify-content-center justify-content-md-center mb-4 mb-sm-0" style="background-image:url(<?php echo $sampulvideo ?>);">
-              <a href="<?php echo $urlvideo ?>" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
-                <span class="fa fa-play"></span>
+            
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <?php  
+                  if ($rsVideo->num_rows()>0) {
+                    $noVideo = 0;
+                    foreach ($rsVideo->result() as $rowVideo) {
+                      $activeVideo = '';
+                      if ($noVideo==0) {
+                        $activeVideo = 'active';
+                      }
+
+                      echo '
+                        <li data-target="#carouselExampleIndicators" data-slide-to="'.$noVideo.'" class="'.$activeVideo.'"></li>
+                      ';
+                      $noVideo++;
+                    }
+                  }
+                ?>                
+              </ol>
+              <div class="carousel-inner">
+                <?php  
+                  
+                  if ($rsVideo->num_rows()>0) {
+                    $noVideo = 1;
+                    foreach ($rsVideo->result() as $rowVideo) {
+                      if (empty($rowVideo->sampulvideo)) {
+                        if (empty($rowsetting->logousaha)) {
+                          $sampulvideo = base_url('images/logo.jpg');
+                        }else{
+                          $sampulvideo = base_url('uploads/pengaturan/'.$rowsetting->logousaha);
+                        }
+                      }else{
+                          $sampulvideo = base_url('uploads/video/'.$rowVideo->sampulvideo);                        
+                      }
+                      $activeVideo = '';
+                      if ($noVideo==1) {
+                        $activeVideo = 'active';
+                      }
+                      echo '
+                        <div class="carousel-item '.$activeVideo.'">
+                          <div class="img img-video d-flex align-self-stretch align-items-center justify-content-center justify-content-md-center mb-4 mb-sm-0" style="background-image:url('.$sampulvideo.');">
+                            <a href="'.$rowVideo->urlvideo.'" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
+                              <span class="fa fa-play"></span>
+                            </a>
+                          </div>
+                        </div>
+                      ';
+
+                      $noVideo++;
+                    }
+                  }
+                ?>
+                
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
               </a>
             </div>
+            
             
           </div>
 
