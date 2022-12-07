@@ -33,7 +33,7 @@
           <div class="row justify-content-center">
             <div class="col-md-8">
               <div class="mb-4">
-              <h3>Sign In to <strong><a href="<?php echo site_url() ?>">Master Botanical1</a></strong></h3>
+              <h4>Sign In to <strong><a href="<?php echo site_url() ?>">Master Botanical1</a></strong></h4>
               <p class="mb-4">Welcome to Master Botanical, please enter your email and password.</p>
             </div>
             <form action="<?php echo site_url('login/cek_login') ?>" method="post">

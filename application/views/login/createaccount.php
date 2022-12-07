@@ -38,7 +38,7 @@
           <div class="row justify-content-center">
             <div class="col-md-8">
               <div class="mb-4">
-              <h3>Create Account <strong>Master Botanical</strong></h3>
+              <h4>Create Account <strong><a href="<?php echo site_url() ?>">Master Botanical1</a></strong></h4>
               <p class="mb-4">Please complete your personal data.</p>
             </div>
             <form action="<?php echo site_url('login/simpanaccountbaru') ?>" method="post" id="form">
