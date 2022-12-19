@@ -45,10 +45,13 @@
             }
         }
     }
-
-    @media (min-width: 992px) {
-
-      .carousel-item img {
+    .carousel-item {
+    height: 300px;
+    overflow: hidden;
+    width: 100%;
+    }
+    
+    .carousel-item img {
           max-width: 100%;
         width: auto   9;
         height: auto;
@@ -57,8 +60,6 @@
         -ms-interpolation-mode: bicubic;
           height: 400px;
       }
-    }
-
 
     .has-error .help-block {
       color: red;
