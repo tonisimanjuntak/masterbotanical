@@ -70,7 +70,7 @@ if (!empty($pesan)) {
                   </div>
 
                   <div class="form-group row text center">
-                      <label for="" class="col-md-12 col-form-label">Gambar Slider <span style="color: red; font-size: 12px; font-weight: bold;"><i> Max ukuran file 2MB</i></span></label>
+                      <label for="" class="col-md-12 col-form-label">Gambar Slider</label>
                       <div class="col-md-12 mt-3 text-center">
                         <img src="<?php echo base_url('../images/nofoto.png'); ?>" id="output1" class="img-thumbnail" style="width:30%;max-height:30%;">
                         <div class="form-group">

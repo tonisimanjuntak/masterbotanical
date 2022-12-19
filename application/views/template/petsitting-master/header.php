@@ -49,13 +49,20 @@
     @media (min-width: 992px) {
 
       .carousel-item img {
-          max-height: 400px;
+          max-width: 100%;
+        width: auto   9;
+        height: auto;
+        vertical-align: middle;
+        border: 0;
+        -ms-interpolation-mode: bicubic;
+          height: 400px;
       }
     }
 
 
     .has-error .help-block {
       color: red;
+      
     }
 
     </style>

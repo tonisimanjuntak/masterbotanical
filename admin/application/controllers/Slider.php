@@ -232,7 +232,7 @@ class Slider extends CI_Controller
             $config['upload_path']   = '../uploads/slider/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['remove_space']  = true;
-            $config['max_size']      = '2000KB';
+            // $config['max_size']      = '2000KB';
 
             $this->load->library('upload', $config);
 
@@ -256,7 +256,7 @@ class Slider extends CI_Controller
             $config['upload_path']   = '../uploads/slider/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['remove_space']  = true;
-            $config['max_size']      = '2000KB';
+            // $config['max_size']      = '2000KB';
 
             $this->load->library('upload', $config);
             if ($this->upload->do_upload($nama)) {
